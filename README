@@ -1,0 +1,35 @@
+MCStats is a statistics plugin for the hey0 Minecraft server environment. MCStats
+periodically generates xml and json files containing server statistics. Optionally,
+MCStats can also serve these files using an embedded web server.
+
+To use MCStats, place MCStats.jar in the hey0 plugin directory and add it to the
+server.properties file.
+
+When first run, MCStats will create the MCStats.txt config file and a statscache
+file. Statscache is the default repository for server statistics. Deleting this
+file will reset all statistics.
+
+The following items can be configured in the MCStats.txt config file.
+* statsCacheFile        - The name of the peristent stats storage file.
+
+* webserverEnabled      - Enables or dissables the embedded web server.
+
+* statsBaseResource     - The file name (minus extension) to use when saving/serving
+                          stats files.
+
+* resourceSaveDirectory - The directory to save stats reports into.
+
+* secondsBetweenSaves   - The number of seconds to wait between saving stats reports
+                          and the statscache.
+
+* httpServerContextRoot - The path part of the embedded web server's url. Must begin
+                          and end with a slash (/). 
+
+                          Example: /foo/ => http://host.com/foo/mcstats.xml
+
+* httpBacklog           - The number of http requests to queue before dropping
+                          requests.
+
+* httpPort              - The port the embedded web server listens on.
+
+MCStats is written by Ryan Michela (deltahat@gmail.com)
