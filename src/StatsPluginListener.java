@@ -1,9 +1,9 @@
 
-public class StatsListener extends PluginListener {
+public class StatsPluginListener extends PluginListener {
 
-	private StatsManager psm;
+	private StatsController psm;
 	
-	public StatsListener(StatsManager psm)
+	public StatsPluginListener(StatsController psm)
 	{
 		this.psm = psm;
 	}

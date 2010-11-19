@@ -6,7 +6,7 @@ import java.util.logging.Logger;
  */
 public abstract class SuperPlugin extends Plugin {
 	public final ReloadListener reloader = new ReloadListener();
-	protected PropertiesFile config;
+	protected PropertiesFile baseConfig;
 	protected final Logger log = Logger.getLogger("Minecraft");
 	protected String name;
 
@@ -15,7 +15,7 @@ public abstract class SuperPlugin extends Plugin {
 	 * @param name - The name for the config/logfile.
 	 */
 	public SuperPlugin(String name) {
-		config = new PropertiesFile(name+".txt");
+		baseConfig = new PropertiesFile(name+".txt");
 		this.name = name;
 		reloadConfig();
 	}
@@ -61,7 +61,7 @@ public abstract class SuperPlugin extends Plugin {
 	}
 
 	private void reloadConfig() {
-		config.load();
+		baseConfig.load();
 		reloadExtra();
 	}
 
