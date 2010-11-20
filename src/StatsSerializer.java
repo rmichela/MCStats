@@ -13,14 +13,7 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,13 +56,7 @@ public class StatsSerializer {
 	}
 	
 	public static String statsAsHtml() {
-		try {
-			InputStream reader = StatsSerializer.class
-					.getResourceAsStream("/mcstats.html");
-			return convertStreamToString(reader);
-		} catch (IOException e) {
-			return "";
-		}
+		return html;
 	}
 	
 	private static StatsSerializerMessage buildStatsMessage(PlayerStatistics[] rawStats) {
@@ -84,34 +71,157 @@ public class StatsSerializer {
 		message.setPlayerStats(rawStats);
 		return message;
 	}
-	
-	/*
-	 * To convert the InputStream to String we use the
-	 * Reader.read(char[] buffer) method. We iterate until the
-	 * Reader return -1 which means there's no more data to
-	 * read. We use the StringWriter class to produce the string.
-	 * 
-	 * Why the frack isn't there a readEntireStream method? Grr. Java you are so left behind.
-	 */
-    private static String convertStreamToString(InputStream is) throws IOException {
-
-    	if (is != null) {
-	    Writer writer = new StringWriter();
-	
-	    char[] buffer = new char[1024];
-	    try {
-	        Reader reader = new BufferedReader(
-	                new InputStreamReader(is, "UTF-8"));
-	        int n;
-	        while ((n = reader.read(buffer)) != -1) {
-	            writer.write(buffer, 0, n);
-	        }
-	    } finally {
-	        is.close();
-	    }
-	    	return writer.toString();
-		} else {        
-		    return "";
-		}
-	}
+    
+    private static String html = 
+"<!DOCTYPE HTML>\n" +
+"<html>\n" +
+"	<head>\n" +
+"		<style type='text/css'>\n" +
+"			h1 {\n" +
+"				font: bold 24px verdana, arial, helvetica, sans-serif;\n" +
+"				color: #363636;\n" +
+"				text-align:center;\n" +
+"				width: 80%;\n" +
+"				margin-left: 10%;\n" +
+"				margin-right: 10%;\n" +
+"				min-width: 600px;\n" +
+"			}\n" +
+"\n" +			
+"			table {\n" +
+"				border-collapse: collapse;\n" +
+"				border: 1px solid #666666;\n" +
+"				font: normal 11px verdana, arial, helvetica, sans-serif;\n" +
+"				color: #363636;\n" +
+"				background: #f6f6f6;\n" +
+"				text-align:left;\n" +
+"				width: 80%;\n" +
+"				margin-left: 10%;\n" +
+"				margin-right: 10%;\n" +
+"				min-width: 600px;\n" +
+"			}\n" +
+"\n" +
+"			thead {\n" +
+"				background: #cfe7fa; /* old browsers */\n" +
+"				background: -moz-linear-gradient(top, #cfe7fa 0%, #6393c1 100%); /* firefox */\n" +
+"				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfe7fa), color-stop(100%,#6393c1)); /* webkit */\n" +
+"				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7fa', endColorstr='#6393c1',GradientType=0 ); /* ie */\n" +
+"				text-align:left;\n" +
+"				height:30px;\n" +
+"			}\n" +
+"\n" +			
+"			thead th {\n" +
+"				padding:5px;\n" +
+"			}\n" +
+"\n" +			
+"			tr.odd {\n" +
+"				background: #f1f1f1;\n" +
+"			}\n" +
+"\n" +			
+"			tbody th, tbody td {\n" +
+"				padding:5px;\n" +
+"			}\n" +
+"\n" +			
+"			.pName {\n" +
+"				font-weight:bold;\n" +
+"			}\n" +
+"\n" +			
+"			.pOnline {\n" +
+"				padding: 3px;\n" +
+"			}\n" +
+"\n" +			
+"			#stats td {\n" +
+"				white-space:nowrap;\n" +
+"			}\n" +
+"		</style>\n" +
+"	</head>\n" +
+"	<body>\n" +
+"		<h1 class='center'>Minecraft Server Statistics</h1>\n" +
+"		<table id='online' class='center'>\n" +
+"			<thead>\n" +
+"				<tr>\n" +
+"					<th>Players Online</th>\n" +
+"				</tr>\n" +
+"			</thead>\n" +
+"			<tbody>\n" +
+"				<tr>\n" +
+"					<td id='playersOnlineList'>\n" +
+"					</td>\n" +
+"				</tr>\n" +
+"			</tbody\n" +
+"		</table>\n" +
+"		<br/>	\n" +
+"		<table id='stats' class='center'>\n" +
+"			<thead>\n" +
+"				<tr>\n" +
+"					<th>Name</th>\n" +
+"					<th>Placed</th>\n" +
+"					<th>Destroyed</th>\n" +
+"					<th>Dropped</th>\n" +
+"					<th>Meters Traveled</th>\n" +
+"					<th>Player Since</th>\n" +
+"					<th>Playtime</th>\n" +
+"				</tr>\n" +
+"			</thead>\n" +
+"			<tbody id='statsTable'></tbody>\n" +
+"		</table>\n" +
+"\n" +
+"		<script src='mcstats.js'></script>\n" +
+"		<script>\n" +
+"			//build the Players Online list\n" +
+"			var playersOnline = document.getElementById('playersOnlineList');\n" +
+"			mcStatsRawData.playersOnline.sort(strSortNoCase);\n" +
+"			for(i in mcStatsRawData.playersOnline)\n" +
+"			{\n" +
+"				var li = document.createElement('span');\n" +
+"				li.setAttribute('class', 'pOnline');\n" +
+"				li.innerHTML = mcStatsRawData.playersOnline[i];\n" +
+"				li.innerHTML += ' ';\n" +
+"				playersOnline.appendChild(li);\n" +
+"			}			\n" +
+"\n" +
+"			//Build the player stats table\n" +
+"			mcStatsRawData.playerStats.sort(statsSort);\n" +
+"			for(j in mcStatsRawData.playerStats)\n" +
+"			{\n" +
+"				var ps = mcStatsRawData.playerStats[j];\n" +
+"				var tr = document.createElement('tr');\n" +
+"\n" +
+"				var playerName = tr.insertCell(0);\n" +
+"				playerName.setAttribute('class', 'pName');\n" +
+"				playerName.innerHTML = ps.playerName;\n" +
+"\n" +
+"				var placed = tr.insertCell(1);\n" +
+"				placed.innerHTML = ps.blocksPlaced;\n" +
+"\n" +
+"				var destroyed = tr.insertCell(2);\n" +
+"				destroyed.innerHTML = ps.blocksDestroyed;\n" +
+"\n" +
+"				var dropped = tr.insertCell(3);\n" +
+"				dropped.innerHTML = ps.itemsDropped;\n" +
+"\n" +
+"				var traveled = tr.insertCell(4);\n" +
+"				traveled.innerHTML = ps.metersTraveled;\n" +
+"\n" +
+"				var playersince = tr.insertCell(5);\n" +
+"				playersince.innerHTML = ps.playerSince.getMonth() + '/' + ps.playerSince.getDate() + '/' + ps.playerSince.getFullYear();\n" +
+"\n" +
+"				var playtime = tr.insertCell(6);\n" +
+"				playtime.innerHTML = ps.totalPlaytime;\n" +
+"\n" +
+"				document.getElementById('statsTable').appendChild(tr);\n" +
+"			}\n" +
+"\n" +
+"			function strSortNoCase(a, b) {\n" +
+"				a = a.toLowerCase(); b = b.toLowerCase();\n" +
+"				if (a>b) return 1;\n" +
+"				if (a <b) return -1;\n" +
+"				return 0; \n" +
+"			}\n" +
+"\n" +
+"			function statsSort(a, b) {\n" +
+"				return strSortNoCase(a.playerName, b.playerName);\n" +
+"			}\n" +
+"		</script>\n" +
+"	</body>\n" +
+"</html>";
 }
