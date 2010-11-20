@@ -1,6 +1,9 @@
 MCStats is a statistics plugin for the hey0 Minecraft server environment. MCStats
-periodically generates xml and json files containing server statistics. Optionally,
+periodically generates xml, json, js, and html files containing server statistics. Optionally,
 MCStats can also serve these files using an embedded web server.
+
+Using the embedded web server, the html stats report can be served directly from your
+Minecraft server. No need for messy apache installs.
 
 To use MCStats, place MCStats.jar in the hey0 plugin directory and add it to the
 server.properties file.
@@ -25,7 +28,9 @@ The following items can be configured in the MCStats.txt config file.
 * httpServerContextRoot - The path part of the embedded web server's url. Must begin
                           and end with a slash (/). 
 
-                          Example: /foo/ => http://host.com/foo/mcstats.xml
+                          Example: /foo/bar/ => http://host.com/foo/bar/mcstats.html
+                          Note: This property only controls the middle part of the url.
+                                Not the file name or the server name.
 
 * httpBacklog           - The number of http requests to queue before dropping
                           requests.

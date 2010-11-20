@@ -101,7 +101,9 @@ public class StatsPlugin extends SuperPlugin {
 		//stop the http server if it's enabled
 		if(config.getWebserverEnabled()) {
 			log.log(Level.INFO, "MCStats stopping web server.");
-			server.stop(1);	
+			server.stop(1);
+			server.removeContext(config.getHttpServerContextRoot());
+			server = null;
 		}
 	}
 	

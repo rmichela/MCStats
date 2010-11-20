@@ -82,9 +82,6 @@ public class StatsModel extends TimerTask {
 	}
 	
 	public void saveUserFiles() {
-		String xmlPath = config.getResourceSaveDirectory() + "/" + config.getStatsBaseResource() + ".xml";
-		String jsonPath = config.getResourceSaveDirectory() + "/" + config.getStatsBaseResource() + ".json";
-		
 		try {
 			//create the base resource directory if needed
 			File dir = new File(config.getResourceSaveDirectory());
@@ -93,18 +90,22 @@ public class StatsModel extends TimerTask {
 				dir.mkdirs();
 			}
 			
-			//write the xml file
-			PrintWriter pwxml = new PrintWriter(xmlPath);
-			pwxml.write(StatsSerializer.statsAsXml(getRawStats()));
-			pwxml.close();
+			saveUserFile(".xml", StatsSerializer.statsAsXml(getRawStats()));
+			saveUserFile(".json", StatsSerializer.statsAsJson(getRawStats()));
+			saveUserFile(".js", StatsSerializer.statsAsJavascript(getRawStats()));
+			saveUserFile(".html", StatsSerializer.statsAsHtml());
 			
-			//write the json file
-			PrintWriter pwjson = new PrintWriter(jsonPath);
-			pwjson.write(StatsSerializer.statsAsJson(getRawStats()));
-			pwjson.close();
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error writing stats user files.", ex);
 		}
+	}
+	
+	private void saveUserFile(String extension, String content) throws IOException
+	{
+		String path = config.getResourceSaveDirectory() + "/" + config.getStatsBaseResource() + extension;
+		PrintWriter pw = new PrintWriter(path);
+		pw.write(content);
+		pw.close();
 	}
 	
 	//Get raw player stats
