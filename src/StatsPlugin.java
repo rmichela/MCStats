@@ -23,7 +23,7 @@ import com.sun.net.httpserver.*;
 public class StatsPlugin extends SuperPlugin {
 
 	private final StatsPluginListener listener;
-	private final StatsModel persister;
+	private final StatsModel model;
 	private final StatsConfig config;
 	private final StatsController stats;
 	
@@ -37,8 +37,8 @@ public class StatsPlugin extends SuperPlugin {
 		psrs = new ArrayList<PluginRegisteredListener>();
 		
 		config = new StatsConfig(baseConfig);
-		persister = new StatsModel(config, log);
-		stats = new StatsController(config, persister.getStats());
+		model = new StatsModel(config, log);
+		stats = new StatsController(config, model.getStats());
 		listener = new StatsPluginListener(stats);
 	}
 
@@ -64,7 +64,7 @@ public class StatsPlugin extends SuperPlugin {
 						new InetSocketAddress(config.getHttpPort()),
 						config.getHttpBacklog());
 				server.createContext(contextRoot, new StatsHttpHandler(
-						persister, config));
+						model, config));
 				server.setExecutor(null); // creates a default executor
 				server.start();
 				log.log(Level.INFO, String.format(
@@ -81,17 +81,17 @@ public class StatsPlugin extends SuperPlugin {
 		}
 		//register a shutdown hook
 		Runtime.getRuntime().addShutdownHook(hook);
-		persister.startPersisting();
+		model.startPersisting();
 	}
 
 	@Override
 	//Detach listener hooks
 	public void disableExtra() {
 		Runtime.getRuntime().removeShutdownHook(hook);
-		persister.stopPersisting();
+		model.stopPersisting();
 		
-		persister.saveStats();
-		persister.saveUserFiles();
+		model.saveStats();
+		model.saveUserFiles();
 		
 		for(PluginRegisteredListener psr : psrs) {
 			etc.getLoader().removeListener(psr);
@@ -109,7 +109,7 @@ public class StatsPlugin extends SuperPlugin {
 	
 	private class ShutdownHook extends Thread {
 		public void run() { 
-			persister.saveStats(); System.out.println("MCStats persisting player statistics on exit.");
+			model.saveStats(); System.out.println("MCStats persisting player statistics on exit.");
 		}
 	}
 

@@ -6,6 +6,10 @@
 				font: bold 24px verdana, arial, helvetica, sans-serif;
 				color: #363636;
 				text-align:center;
+				width: 80%;
+				margin-left: 10%;
+				margin-right: 10%;
+				min-width: 600px;
 			}
 			
 			table {
@@ -15,9 +19,10 @@
 				color: #363636;
 				background: #f6f6f6;
 				text-align:left;
-				width: 50%;
-				margin-left: 25%;
-				margin-right: 25%;
+				width: 80%;
+				margin-left: 10%;
+				margin-right: 10%;
+				min-width: 600px;
 			}
 
 			thead {
@@ -41,26 +46,22 @@
 				padding:5px;
 			}
 			
-			ul {
-				margin-left: -40px;
-				margin-top: 0px;
-				margin-bottom: 0px;
-			}
-			
-			li {
-				display: inline;
-				list-style-type: none;
-				padding-right: 10px;
-			}
-			
 			.pName {
 				font-weight:bold;
+			}
+			
+			.pOnline {
+				padding: 3px;
+			}
+			
+			#stats td {
+				white-space:nowrap;
 			}
 		</style>
 	</head>
 	<body>
 		<h1 class='center'>Minecraft Server Statistics</h1>
-		<table class='center'>
+		<table id='online' class='center'>
 			<thead>
 				<tr>
 					<th>Players Online</th>
@@ -68,14 +69,13 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>
-						<ul id='playersOnlineList'></ul>
+					<td id='playersOnlineList'>
 					</td>
 				</tr>
 			</tbody
 		</table>
 		<br/>	
-		<table class='center'>
+		<table id='stats' class='center'>
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -97,8 +97,10 @@
 			mcStatsRawData.playersOnline.sort(strSortNoCase);
 			for(i in mcStatsRawData.playersOnline)
 			{
-				var li = document.createElement('li');
+				var li = document.createElement('span');
+				li.setAttribute('class', 'pOnline');
 				li.innerHTML = mcStatsRawData.playersOnline[i];
+				li.innerHTML += ' ';
 				playersOnline.appendChild(li);
 			}			
 			
@@ -106,7 +108,7 @@
 			mcStatsRawData.playerStats.sort(statsSort);
 			for(j in mcStatsRawData.playerStats)
 			{
-				var ps = mcStatsRawData.playerStats[0];
+				var ps = mcStatsRawData.playerStats[j];
 				var tr = document.createElement('tr');
 				
 				var playerName = tr.insertCell(0);

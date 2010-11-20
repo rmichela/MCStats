@@ -38,6 +38,7 @@ public class StatsModel extends TimerTask {
 			try {
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(config.getStatsCacheFile()));
 				stats = (HashMap<String, PlayerStatistics>) in.readObject();
+				cleanStats();
 			} catch (Exception e) {
 				log.log(Level.SEVERE, "MCStats failed to restore player statistics.", e);
 				stats = new HashMap<String, PlayerStatistics>();
@@ -46,6 +47,21 @@ public class StatsModel extends TimerTask {
 			log.log(Level.INFO, "MCStats did not find previously stored player statistics - creating a new statistics cache.");
 			stats = new HashMap<String, PlayerStatistics>();
 			saveStats();
+		}
+	}
+	
+	/*
+	 * cleanStats is called after load and fixes any glitches that may be in the stats model
+	 */
+	private void cleanStats() {
+		//1. Remove any block types with id less than 1
+		for(PlayerStatistics ps : stats.values()) {
+			ps.blocksPlaced.remove(0);
+			ps.blocksPlaced.remove(-1);
+			ps.blocksDestroyed.remove(0);
+			ps.blocksDestroyed.remove(-1);
+			ps.itemsDropped.remove(0);
+			ps.itemsDropped.remove(-1);
 		}
 	}
 	
