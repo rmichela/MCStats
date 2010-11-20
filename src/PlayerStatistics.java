@@ -48,6 +48,7 @@ public class PlayerStatistics implements Serializable {
 	}
 	
 	// Bean getters for JSON/XML serialization
+	@XmlElement
 	public String getPlayerName() { 
 		return playerName; 
 	}

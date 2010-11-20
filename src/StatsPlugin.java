@@ -68,11 +68,13 @@ public class StatsPlugin extends SuperPlugin {
 				server.setExecutor(null); // creates a default executor
 				server.start();
 				log.log(Level.INFO, String.format(
-						"Server stats available at http://[hostname]:%s%s%s and %s",
+						"Server stats available at http://[hostname]:%s%s%s, %s, %s, and %s",
 						config.getHttpPort(),
 						contextRoot,
 						resource + ".xml",
-						resource + ".json"));
+						resource + ".json",
+						resource + ".js",
+						resource + ".html"));
 			} catch (IOException e) {
 				log.log(Level.SEVERE, "MCStats failed to start http server", e);
 			}

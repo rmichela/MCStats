@@ -37,6 +37,10 @@ public class StatsHttpHandler implements HttpHandler {
         	handleXML(t);
         } else if(request.endsWith(config.getStatsBaseResource() + ".json")) {
         	handleJson(t);
+        } else if(request.endsWith(config.getStatsBaseResource() + ".js")) {
+        	handleJavaScript(t);
+        } else if(request.endsWith(config.getStatsBaseResource() + ".html")) {
+        	handleHtml(t);
         } else {
         	handle404(t);
         }
@@ -53,6 +57,24 @@ public class StatsHttpHandler implements HttpHandler {
 	
 	private void handleJson(HttpExchange t) throws IOException {
 		String response = StatsSerializer.statsAsJson(stats.getRawStats());
+		
+		t.sendResponseHeaders(200, response.length());
+		OutputStream os = t.getResponseBody();
+        os.write(response.getBytes());
+        os.close();	
+	}
+	
+	private void handleJavaScript(HttpExchange t) throws IOException {
+		String response = StatsSerializer.statsAsJavascript(stats.getRawStats());
+		
+		t.sendResponseHeaders(200, response.length());
+		OutputStream os = t.getResponseBody();
+        os.write(response.getBytes());
+        os.close();	
+	}
+	
+	private void handleHtml(HttpExchange t) throws IOException {
+		String response = StatsSerializer.statsAsHtml();
 		
 		t.sendResponseHeaders(200, response.length());
 		OutputStream os = t.getResponseBody();

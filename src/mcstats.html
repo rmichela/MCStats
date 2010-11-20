@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<style type="text/css">
+			h1 {
+				font: bold 24px verdana, arial, helvetica, sans-serif;
+				color: #363636;
+				text-align:center;
+			}
+			
+			table {
+				border-collapse: collapse;
+				border: 1px solid #666666;
+				font: normal 11px verdana, arial, helvetica, sans-serif;
+				color: #363636;
+				background: #f6f6f6;
+				text-align:left;
+				width: 50%;
+				margin-left: 25%;
+				margin-right: 25%;
+			}
+
+			thead {
+				background: #cfe7fa; /* old browsers */
+				background: -moz-linear-gradient(top, #cfe7fa 0%, #6393c1 100%); /* firefox */
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfe7fa), color-stop(100%,#6393c1)); /* webkit */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7fa', endColorstr='#6393c1',GradientType=0 ); /* ie */
+				text-align:left;
+				height:30px;
+			}
+			
+			thead th {
+				padding:5px;
+			}
+			
+			tr.odd {
+				background: #f1f1f1;
+			}
+			
+			tbody th, tbody td {
+				padding:5px;
+			}
+			
+			ul {
+				margin-left: -40px;
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+			
+			li {
+				display: inline;
+				list-style-type: none;
+				padding-right: 10px;
+			}
+			
+			.pName {
+				font-weight:bold;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 class='center'>Minecraft Server Statistics</h1>
+		<table class='center'>
+			<thead>
+				<tr>
+					<th>Players Online</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<ul id='playersOnlineList'></ul>
+					</td>
+				</tr>
+			</tbody
+		</table>
+		<br/>	
+		<table class='center'>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Placed</th>
+					<th>Destroyed</th>
+					<th>Dropped</th>
+					<th>Meters Traveled</th>
+					<th>Player Since</th>
+					<th>Playtime</th>
+				</tr>
+			</thead>
+			<tbody id="statsTable"></tbody>
+		</table>
+		
+		<script src='mcstats.js'></script>
+		<script>
+			//build the Players Online list
+			var playersOnline = document.getElementById('playersOnlineList');
+			mcStatsRawData.playersOnline.sort(strSortNoCase);
+			for(i in mcStatsRawData.playersOnline)
+			{
+				var li = document.createElement('li');
+				li.innerHTML = mcStatsRawData.playersOnline[i];
+				playersOnline.appendChild(li);
+			}			
+			
+			//Build the player stats table
+			mcStatsRawData.playerStats.sort(statsSort);
+			for(j in mcStatsRawData.playerStats)
+			{
+				var ps = mcStatsRawData.playerStats[0];
+				var tr = document.createElement('tr');
+				
+				var playerName = tr.insertCell(0);
+				playerName.setAttribute('class', 'pName');
+				playerName.innerHTML = ps.playerName;
+				
+				var placed = tr.insertCell(1);
+				placed.innerHTML = ps.blocksPlaced;
+				
+				var destroyed = tr.insertCell(2);
+				destroyed.innerHTML = ps.blocksDestroyed;
+				
+				var dropped = tr.insertCell(3);
+				dropped.innerHTML = ps.itemsDropped;
+				
+				var traveled = tr.insertCell(4);
+				traveled.innerHTML = ps.metersTraveled;
+				
+				var playersince = tr.insertCell(5);
+				playersince.innerHTML = ps.playerSince.getMonth() + '/' + ps.playerSince.getDate() + '/' + ps.playerSince.getFullYear();
+				
+				var playtime = tr.insertCell(6);
+				playtime.innerHTML = ps.totalPlaytime;
+				
+				document.getElementById('statsTable').appendChild(tr);
+			}
+			
+			function strSortNoCase(a, b) {
+				a = a.toLowerCase(); b = b.toLowerCase();
+				if (a>b) return 1;
+				if (a <b) return -1;
+				return 0; 
+			}
+			
+			function statsSort(a, b) {
+				return strSortNoCase(a.playerName, b.playerName);
+			}
+		</script>
+	</body>
+</html>
