@@ -217,9 +217,11 @@ public class StatsSerializer {
 "				var ps = mcStatsRawData.playerStats[j];\n" +
 "				var tr = document.createElement('tr');\n" +
 "\n" +
-"				var playerName = tr.insertCell(col++);\n" +
-"				playerName.setAttribute('class', 'pName' + groupConcat(ps.playerGroups));\n" +
-"				playerName.innerHTML = ps.playerName;\n" +
+"				var playerNameTd = tr.insertCell(col++);\n" +
+"				var playerNameSpan = document.createElement('span');\n" +
+"				playerNameSpan.setAttribute('class', 'pName' + groupConcat(ps.playerGroups));\n" +
+"				playerNameSpan.innerHTML = ps.playerName;\n" +
+"				playerNameTd.appendChild(playerNameSpan);\n" +
 "\n" +
 "				var playerGroups = tr.insertCell(col++);\n" +
 "				playerGroups.innerHTML = groupConcat(ps.playerGroups);\n" +
