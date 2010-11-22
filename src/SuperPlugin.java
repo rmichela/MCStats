@@ -15,7 +15,7 @@ public abstract class SuperPlugin extends Plugin {
 	 * @param name - The name for the config/logfile.
 	 */
 	public SuperPlugin(String name) {
-		baseConfig = new PropertiesFile(name+".txt");
+		baseConfig = new PropertiesFile(name+".properties");
 		this.name = name;
 		reloadConfig();
 	}

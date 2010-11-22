@@ -22,7 +22,9 @@ import javax.xml.bind.annotation.*;
 public class PlayerStatistics implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public String playerName;
+	public String[] playerGroups;
 	public Date playerSince;
+	public Date lastLogin;
 	public long secondsOnServer;
 	public long metersTraveled;
 	public HashMap<Integer, Long> blocksPlaced;
@@ -54,6 +56,11 @@ public class PlayerStatistics implements Serializable {
 	}
 	
 	@XmlElement
+	public String[] getPlayerGroups() {
+		return playerGroups;
+	}
+	
+	@XmlElement
 	public boolean getIsOnline() {
 		List<String> playersOnline = new ArrayList<String>();
 		for (Player p : etc.getServer().getPlayerList()) {
@@ -67,10 +74,25 @@ public class PlayerStatistics implements Serializable {
 	public Date getPlayerSince() {
 		return playerSince;
 	}
+	
+	@XmlElement
+	public Date getLastLogin() {
+		return lastLogin;
+	}
 
 	@XmlElement
 	public String getTotalPlaytime() {
 		return secondsToTimestamp(secondsOnServer);
+	}
+	
+	@XmlElement
+	public String getSessionPlaytime() {
+		if(getIsOnline()) {
+			long seccondsInSession = new Date().getTime() - lastLogin.getTime();
+			return secondsToTimestamp(seccondsInSession);
+		} else {
+			return "--";
+		}
 	}
 
 	@XmlElement

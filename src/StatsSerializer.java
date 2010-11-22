@@ -135,8 +135,8 @@ public class StatsSerializer {
 "		</style>\n" +
 "	</head>\n" +
 "	<body>\n" +
-"		<h1 class='center'>Minecraft Server Statistics</h1>\n" +
-"		<table id='online' class='center'>\n" +
+"		<h1>Minecraft Server Statistics</h1>\n" +
+"		<table id='online'>\n" +
 "			<thead>\n" +
 "				<tr>\n" +
 "					<th>Players Online</th>\n" +
@@ -150,16 +150,19 @@ public class StatsSerializer {
 "			</tbody\n" +
 "		</table>\n" +
 "		<br/>	\n" +
-"		<table id='stats' class='center'>\n" +
+"		<table id='stats'>\n" +
 "			<thead>\n" +
 "				<tr>\n" +
 "					<th>Name</th>\n" +
+"					<th>Groups</th>\n" +
 "					<th>Placed</th>\n" +
 "					<th>Destroyed</th>\n" +
 "					<th>Dropped</th>\n" +
 "					<th>Meters Traveled</th>\n" +
 "					<th>Player Since</th>\n" +
-"					<th>Playtime</th>\n" +
+"					<th>Last Login</th>\n" +
+"					<th>Total Playtime</th>\n" +
+"					<th>Session Playtime</th>\n" +
 "				</tr>\n" +
 "			</thead>\n" +
 "			<tbody id='statsTable'></tbody>\n" +
@@ -183,30 +186,41 @@ public class StatsSerializer {
 "			mcStatsRawData.playerStats.sort(statsSort);\n" +
 "			for(j in mcStatsRawData.playerStats)\n" +
 "			{\n" +
+"				var col = 0;\n"+
+"\n" +
 "				var ps = mcStatsRawData.playerStats[j];\n" +
 "				var tr = document.createElement('tr');\n" +
 "\n" +
-"				var playerName = tr.insertCell(0);\n" +
-"				playerName.setAttribute('class', 'pName');\n" +
+"				var playerName = tr.insertCell(col++);\n" +
+"				playerName.setAttribute('class', 'pName ' + groupConcat(ps.playerGroups));\n" +
 "				playerName.innerHTML = ps.playerName;\n" +
 "\n" +
-"				var placed = tr.insertCell(1);\n" +
+"				var playerGroups = tr.insertCell(col++);\n" +
+"				playerGroups.innerHTML = groupConcat(ps.playerGroups);\n" +
+"\n" +
+"				var placed = tr.insertCell(col++);\n" +
 "				placed.innerHTML = ps.blocksPlaced;\n" +
 "\n" +
-"				var destroyed = tr.insertCell(2);\n" +
+"				var destroyed = tr.insertCell(col++);\n" +
 "				destroyed.innerHTML = ps.blocksDestroyed;\n" +
 "\n" +
-"				var dropped = tr.insertCell(3);\n" +
+"				var dropped = tr.insertCell(col++);\n" +
 "				dropped.innerHTML = ps.itemsDropped;\n" +
 "\n" +
-"				var traveled = tr.insertCell(4);\n" +
+"				var traveled = tr.insertCell(col++);\n" +
 "				traveled.innerHTML = ps.metersTraveled;\n" +
 "\n" +
-"				var playersince = tr.insertCell(5);\n" +
-"				playersince.innerHTML = ps.playerSince.getMonth() + '/' + ps.playerSince.getDate() + '/' + ps.playerSince.getFullYear();\n" +
+"				var playersince = tr.insertCell(col++);\n" +
+"				playersince.innerHTML = formatDate(ps.playerSince);\n" +
 "\n" +
-"				var playtime = tr.insertCell(6);\n" +
-"				playtime.innerHTML = ps.totalPlaytime;\n" +
+"				var lastLogin = tr.insertCell(col++);\n" +
+"				lastLogin.innerHTML = formatDate(ps.lastLogin);\n" +
+"\n" +
+"				var totalPlaytime = tr.insertCell(col++);\n" +
+"				totalPlaytime.innerHTML = ps.totalPlaytime;\n" +
+"\n" +
+"				var sessionPlaytime = tr.insertCell(col++);\n" +
+"				sessionPlaytime.innerHTML = ps.sessionPlaytime;\n" +
 "\n" +
 "				document.getElementById('statsTable').appendChild(tr);\n" +
 "			}\n" +
@@ -220,6 +234,14 @@ public class StatsSerializer {
 "\n" +
 "			function statsSort(a, b) {\n" +
 "				return strSortNoCase(a.playerName, b.playerName);\n" +
+"			}\n" +
+"\n" +
+"			function groupConcat(groupArray) {\n" +
+"				return groupArray == null ? '' : groupArray.join(' ');\n" +
+"			}\n" +
+"\n" +
+"			function formatDate(date) {\n" +
+"				return date == null ? '--' : date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();\n" +
 "			}\n" +
 "		</script>\n" +
 "	</body>\n" +

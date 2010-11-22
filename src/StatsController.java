@@ -26,6 +26,15 @@ public class StatsController {
 	public void logIn(Player player) {
 		PlayerStatistics ps = getPlayerStats(player);
 		ps.sessionMarkTime = new Date();
+		ps.playerGroups = player.getGroups();
+		ps.lastLogin = new Date();
+	}
+	
+	//Logs in any players who are active when the mod starts
+	public void logInOnlinePlayers() {
+		for(Player player : etc.getServer().getPlayerList()) {
+			logIn(player);
+		}
 	}
 	
 	//Add total play time to the player's secondsOnServer
@@ -33,6 +42,13 @@ public class StatsController {
 		PlayerStatistics ps = getPlayerStats(player);
 		ps.flushSessionPlaytime();
 		ps.sessionMarkTime = null;
+	}
+	
+	//Logs out all players - called at shutdown
+	public void logOutAllPlayers() {
+		for(Player player : etc.getServer().getPlayerList()) {
+			logOut(player);
+		}
 	}
 	
 	//Note that the player has traveled a meter

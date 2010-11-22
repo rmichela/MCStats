@@ -106,22 +106,25 @@ public class StatsModel extends TimerTask {
 				dir.mkdirs();
 			}
 			
-			saveUserFile(".xml", StatsSerializer.statsAsXml(getRawStats()));
-			saveUserFile(".json", StatsSerializer.statsAsJson(getRawStats()));
-			saveUserFile(".js", StatsSerializer.statsAsJavascript(getRawStats()));
-			saveUserFile(".html", StatsSerializer.statsAsHtml());
+			saveUserFile(".xml", StatsSerializer.statsAsXml(getRawStats()), true);
+			saveUserFile(".json", StatsSerializer.statsAsJson(getRawStats()), true);
+			saveUserFile(".js", StatsSerializer.statsAsJavascript(getRawStats()), true);
+			saveUserFile(".html", StatsSerializer.statsAsHtml(), false);
 			
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error writing stats user files.", ex);
 		}
 	}
 	
-	private void saveUserFile(String extension, String content) throws IOException
+	private void saveUserFile(String extension, String content, boolean overwrite) throws IOException
 	{
 		String path = config.getResourceSaveDirectory() + "/" + config.getStatsBaseResource() + extension;
-		PrintWriter pw = new PrintWriter(path);
-		pw.write(content);
-		pw.close();
+		//create/overwrite the file iff it doesn't exist or overwrite is true
+		if(!new File(path).exists() || overwrite) {
+			PrintWriter pw = new PrintWriter(path);
+			pw.write(content);
+			pw.close();
+		}
 	}
 	
 	//Get raw player stats

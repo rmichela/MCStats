@@ -25,7 +25,7 @@ public class StatsPlugin extends SuperPlugin {
 	private final StatsPluginListener listener;
 	private final StatsModel model;
 	private final StatsConfig config;
-	private final StatsController stats;
+	private final StatsController controller;
 	
 	private ShutdownHook hook = new ShutdownHook();
 	
@@ -38,8 +38,8 @@ public class StatsPlugin extends SuperPlugin {
 		
 		config = new StatsConfig(baseConfig);
 		model = new StatsModel(config, log);
-		stats = new StatsController(config, model.getStats());
-		listener = new StatsPluginListener(stats);
+		controller = new StatsController(config, model.getStats());
+		listener = new StatsPluginListener(controller);
 	}
 
 	@Override
@@ -81,6 +81,7 @@ public class StatsPlugin extends SuperPlugin {
 		}
 		//register a shutdown hook
 		Runtime.getRuntime().addShutdownHook(hook);
+		controller.logInOnlinePlayers();
 		model.startPersisting();
 	}
 
@@ -88,6 +89,7 @@ public class StatsPlugin extends SuperPlugin {
 	//Detach listener hooks
 	public void disableExtra() {
 		Runtime.getRuntime().removeShutdownHook(hook);
+		controller.logOutAllPlayers();
 		model.stopPersisting();
 		
 		model.saveStats();
