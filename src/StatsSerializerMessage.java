@@ -13,10 +13,6 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import javax.xml.bind.annotation.*;
-
-@XmlRootElement(name="MCStats")
-@XmlAccessorType(XmlAccessType.PROPERTY)
 public class StatsSerializerMessage {
 	private OnlinePlayer[] playersOnline;
 	private PlayerStatistics[] playerStats;
@@ -27,7 +23,6 @@ public class StatsSerializerMessage {
 		playerStats = new PlayerStatistics[0];
 	}
 	
-	@XmlElement
 	public OnlinePlayer[] getPlayersOnline() {
 		OnlinePlayer noOne = new OnlinePlayer();
 		noOne.playerName = "No One";
@@ -39,7 +34,6 @@ public class StatsSerializerMessage {
 		this.playersOnline = playerList;
 	}
 	
-	@XmlElement
 	public PlayerStatistics[] getPlayerStats() {
 		return playerStats;
 	}

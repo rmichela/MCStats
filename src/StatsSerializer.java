@@ -40,19 +40,42 @@ public class StatsSerializer {
 	}
 	
 	public static String statsAsXml(PlayerStatistics[] rawStats) {
-		String response;
+		StringBuilder response = new StringBuilder();
+		StatsSerializerMessage message = buildStatsMessage(rawStats);
+		
 		try {
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			JAXBContext jc = JAXBContext.newInstance(StatsSerializerMessage.class);
-			Marshaller marshaller = jc.createMarshaller();
-			marshaller.marshal(buildStatsMessage(rawStats), out);;
+			response.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+			response.append("<mcStats>");
+			response.append("<playersOnline>");
 			
-			response = out.toString();
+			for(OnlinePlayer p : message.getPlayersOnline()) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				JAXBContext jc = JAXBContext.newInstance(StatsSerializerMessage.class);
+				Marshaller marshaller = jc.createMarshaller();
+				marshaller.setProperty("jaxb.fragment", Boolean.TRUE);
+				marshaller.marshal(p, out);
+				response.append(out.toString());
+			}
+			
+			response.append("</playersOnline>");
+			response.append("<playerStats>");
+			
+			for(PlayerStatistics p : message.getPlayerStats()) {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				JAXBContext jc = JAXBContext.newInstance(StatsSerializerMessage.class);
+				Marshaller marshaller = jc.createMarshaller();
+				marshaller.setProperty("jaxb.fragment", Boolean.TRUE);
+				marshaller.marshal(p, out);
+				response.append(out.toString());
+			}
+			
+			response.append("</playerStats>");
+			response.append("</mcStats>");
 		} catch (Exception ex) {
-			response = ex.getMessage();
+			response.append(ex.getMessage());
 		}
 		
-		return response;
+		return response.toString();
 	}
 	
 	public static String statsAsHtml() {
@@ -179,7 +202,7 @@ public class StatsSerializer {
 "			for(i in mcStatsRawData.playersOnline)\n" +
 "			{\n" +
 "				var span = document.createElement('span');\n" +
-"				span.setAttribute('class', 'pOnline ' + groupConcat(mcStatsRawData.playersOnline[i].groups));\n" +
+"				span.setAttribute('class', 'pOnline' + groupConcat(mcStatsRawData.playersOnline[i].groups));\n" +
 "				span.innerHTML = mcStatsRawData.playersOnline[i].playerName;\n" +
 "				span.innerHTML += ' ';\n" +
 "				playersOnline.appendChild(span);\n" +
@@ -195,7 +218,7 @@ public class StatsSerializer {
 "				var tr = document.createElement('tr');\n" +
 "\n" +
 "				var playerName = tr.insertCell(col++);\n" +
-"				playerName.setAttribute('class', 'pName ' + groupConcat(ps.playerGroups));\n" +
+"				playerName.setAttribute('class', 'pName' + groupConcat(ps.playerGroups));\n" +
 "				playerName.innerHTML = ps.playerName;\n" +
 "\n" +
 "				var playerGroups = tr.insertCell(col++);\n" +
@@ -240,7 +263,7 @@ public class StatsSerializer {
 "			}\n" +
 "\n" +
 "			function groupConcat(groupArray) {\n" +
-"				return groupArray == null ? '' : groupArray.join(' ');\n" +
+"				return groupArray == null ? '' : ' ' + groupArray.join(' ');\n" +
 "			}\n" +
 "\n" +
 "			function formatDate(date) {\n" +

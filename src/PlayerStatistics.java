@@ -18,6 +18,7 @@ import java.util.*;
 
 import javax.xml.bind.annotation.*;
 
+@XmlRootElement(name="player")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class PlayerStatistics implements Serializable {
 	private static final long serialVersionUID = 1L;
