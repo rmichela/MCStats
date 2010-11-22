@@ -61,13 +61,16 @@ public class StatsSerializer {
 	
 	private static StatsSerializerMessage buildStatsMessage(PlayerStatistics[] rawStats) {
 		//build the list of player names online. (java needs linq).
-		List<String> playersOnline = new ArrayList<String>();
+		List<OnlinePlayer> playersOnline = new ArrayList<OnlinePlayer>();
 		for (Player p : etc.getServer().getPlayerList()) {
-			playersOnline.add(p.getName());
+			OnlinePlayer op = new OnlinePlayer();
+			op.playerName = p.getName();
+			op.groups = p.getGroups();
+			playersOnline.add(op);
 		}
 		
 		StatsSerializerMessage message = new StatsSerializerMessage();
-		message.setPlayersOnline(playersOnline.toArray(new String[playersOnline.size()]));
+		message.setPlayersOnline(playersOnline.toArray(new OnlinePlayer[playersOnline.size()]));
 		message.setPlayerStats(rawStats);
 		return message;
 	}
@@ -175,11 +178,11 @@ public class StatsSerializer {
 "			mcStatsRawData.playersOnline.sort(strSortNoCase);\n" +
 "			for(i in mcStatsRawData.playersOnline)\n" +
 "			{\n" +
-"				var li = document.createElement('span');\n" +
-"				li.setAttribute('class', 'pOnline');\n" +
-"				li.innerHTML = mcStatsRawData.playersOnline[i];\n" +
-"				li.innerHTML += ' ';\n" +
-"				playersOnline.appendChild(li);\n" +
+"				var span = document.createElement('span');\n" +
+"				span.setAttribute('class', 'pOnline ' + groupConcat(mcStatsRawData.playersOnline[i].groups));\n" +
+"				span.innerHTML = mcStatsRawData.playersOnline[i].playerName;\n" +
+"				span.innerHTML += ' ';\n" +
+"				playersOnline.appendChild(span);\n" +
 "			}			\n" +
 "\n" +
 "			//Build the player stats table\n" +
