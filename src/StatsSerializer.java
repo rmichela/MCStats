@@ -198,7 +198,7 @@ public class StatsSerializer {
 "		<script>\n" +
 "			//build the Players Online list\n" +
 "			var playersOnline = document.getElementById('playersOnlineList');\n" +
-"			mcStatsRawData.playersOnline.sort(strSortNoCase);\n" +
+"			mcStatsRawData.playersOnline.sort(statsSort);\n" +
 "			for(i in mcStatsRawData.playersOnline)\n" +
 "			{\n" +
 "				var span = document.createElement('span');\n" +
