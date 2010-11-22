@@ -89,7 +89,7 @@ public class PlayerStatistics implements Serializable {
 	@XmlElement
 	public String getSessionPlaytime() {
 		if(getIsOnline()) {
-			long seccondsInSession = new Date().getTime() - lastLogin.getTime();
+			long seccondsInSession = (new Date().getTime() - lastLogin.getTime()) / 1000;
 			return secondsToTimestamp(seccondsInSession);
 		} else {
 			return "--";
