@@ -18,6 +18,14 @@ file will reset all statistics.
 
 <<<<<<<<<<<<<<<<<<<<<<<<< P U R G I N G   O L D   P L A Y E R S >>>>>>>>>>>>>>>>>>>>>>>
 
+To purge an inactive or unwanted player from the statistics cache, add their name to
+the playersToPurge attribute in the MCStats.properties file. More than one player name
+can be added by separating them by spaces. After saving the properties file, reload
+MCStats from the server console to execute the purge. You will be notified that the
+players were removed when the module reloads. Once the selected players have been
+successfully purged from the statistics cache, the playersToPurge property will be
+cleared.
+
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<< C O N F I G U R A T I O N >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 The following items can be configured in the MCStats.config file.
@@ -45,6 +53,8 @@ The following items can be configured in the MCStats.config file.
 
 * httpPort              - The port the embedded web server listens on.
 
+* playersToPurge        - A list of player names to remove from the stats cache,
+                          separated by spaces.
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< C O N T A C T >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
