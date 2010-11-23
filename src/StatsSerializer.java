@@ -273,7 +273,7 @@ public class StatsSerializer {
 "			}\n" +
 "\n" +
 "			function formatDate(date) {\n" +
-"				return date == null ? '--' : date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();\n" +
+"				return date == null ? '--' : (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();\n" +
 "			}\n" +
 "		</script>\n" +
 "	</body>\n" +
