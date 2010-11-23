@@ -87,12 +87,27 @@ public class PlayerStatistics implements Serializable {
 	}
 	
 	@XmlElement
+	public String getTotalPlaytimeSeconds() {
+		return Long.toString(secondsOnServer);
+	}
+	
+	@XmlElement
 	public String getSessionPlaytime() {
 		if(getIsOnline()) {
 			long seccondsInSession = (new Date().getTime() - lastLogin.getTime()) / 1000;
 			return secondsToTimestamp(seccondsInSession);
 		} else {
 			return "--";
+		}
+	}
+	
+	@XmlElement
+	public String getSessionPlaytimeSeconds() {
+		if(getIsOnline()) {
+			long secondsInSession = (new Date().getTime() - lastLogin.getTime()) / 1000;
+			return Long.toString(secondsInSession);
+		} else {
+			return "-1";
 		}
 	}
 
