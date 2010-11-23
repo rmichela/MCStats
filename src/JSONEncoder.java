@@ -98,7 +98,7 @@ public class JSONEncoder<T> {
 
         private void encode(final Object object, final Writer out) throws IOException {
             try {
-                out.write(name);
+                out.write("\"" + name + "\"");
                 out.write(':');
 
                 final Object value = getter.invoke(object);
