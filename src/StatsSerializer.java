@@ -106,6 +106,8 @@ public class StatsSerializer {
 "<!DOCTYPE HTML>\n" +
 "<html>\n" +
 "	<head>\n" +
+"		<title>Minecraft Player Statistics</title>\n" +
+"		<meta http-equiv='refresh' content='10' >\n" +
 "		<style type='text/css'>\n" +
 "			h1 {\n" +
 "				font: bold 24px verdana, arial, helvetica, sans-serif;\n" +
@@ -165,7 +167,7 @@ public class StatsSerializer {
 "		</style>\n" +
 "	</head>\n" +
 "	<body>\n" +
-"		<h1>Minecraft Server Statistics</h1>\n" +
+"		<h1>Minecraft Player Statistics</h1>\n" +
 "		<table id='online'>\n" +
 "			<thead>\n" +
 "				<tr>\n" +
