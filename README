@@ -1,4 +1,4 @@
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<< O V E R V I E W >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< O V E R V I E W >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 MCStats is a statistics plugin for the hey0 Minecraft server environment. MCStats
 periodically generates xml, json, js, and html files containing server statistics. Optionally,
@@ -7,7 +7,7 @@ MCStats can also serve these files using an embedded web server.
 Using the embedded web server, the html stats report can be served directly from your
 Minecraft server. No need for messy apache installs.
 
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<< I N S T A L L A T I O N >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< I N S T A L L A T I O N >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 To use MCStats, place MCStats.jar in the hey0 plugin directory and add it to the
 server.properties file.
@@ -15,6 +15,8 @@ server.properties file.
 When first run, MCStats will create the MCStats.config file and a statscache
 file. Statscache is the default repository for server statistics. Deleting this
 file will reset all statistics.
+
+<<<<<<<<<<<<<<<<<<<<<<<<< P U R G I N G   O L D   P L A Y E R S >>>>>>>>>>>>>>>>>>>>>>>
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<< C O N F I G U R A T I O N >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -44,7 +46,7 @@ The following items can be configured in the MCStats.config file.
 * httpPort              - The port the embedded web server listens on.
 
 
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<< C O N T A C T >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< C O N T A C T >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 MCStats is written by Ryan Michela (deltahat@gmail.com)
 
