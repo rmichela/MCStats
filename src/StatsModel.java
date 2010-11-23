@@ -88,7 +88,6 @@ public class StatsModel extends TimerTask {
 		}
 		
 		try {
-			log.log(Level.INFO, "MCStats persisting player statistics.");
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(config.getStatsCacheFile()));
 			out.writeObject(stats);
 			out.close();
@@ -128,10 +127,10 @@ public class StatsModel extends TimerTask {
 	}
 	
 	//Get raw player stats
-	public PlayerStatistics[] getRawStats() {
+	public List<PlayerStatistics> getRawStats() {
 		synchronized (stats) {
 			//Copies references to the PlayerStats objects into a new array, preserving thread safety.
-			return stats.values().toArray(new PlayerStatistics[stats.size()]);
+			return new ArrayList<PlayerStatistics>(stats.values());
 		}
 	}
 	

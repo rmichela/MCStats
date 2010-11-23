@@ -23,7 +23,7 @@ import javax.xml.bind.Marshaller;
 
 public class StatsSerializer {
 	
-	public static String statsAsJson(PlayerStatistics[] rawStats) {
+	public static String statsAsJson(List<PlayerStatistics> rawStats) {
 		String response;
 		try {
 			response = JSONEncoder.getJSONEncoder(StatsSerializerMessage.class).encode(buildStatsMessage(rawStats));
@@ -34,19 +34,21 @@ public class StatsSerializer {
 		return response;
 	}
 	
-	public static String statsAsJavascript(PlayerStatistics[] rawStats) {
+	public static String statsAsJavascript(List<PlayerStatistics> rawStats) {
 		String json = statsAsJson(rawStats);
 		return "var mcStatsRawData = " + json + ";";
 	}
 	
-	public static String statsAsXml(PlayerStatistics[] rawStats) {
+	//XML serialization must be done in pieces due to the limitations of jaxb.
+	//This does, however, give us more control over the final markup.
+	public static String statsAsXml(List<PlayerStatistics> rawStats) {
 		StringBuilder response = new StringBuilder();
 		StatsSerializerMessage message = buildStatsMessage(rawStats);
 		
 		try {
-			response.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+			response.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			response.append("<mcStats>");
-			response.append("<playersOnline>");
+			response.append("<playersOnline>\n");
 			
 			for(OnlinePlayer p : message.getPlayersOnline()) {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -55,10 +57,11 @@ public class StatsSerializer {
 				marshaller.setProperty("jaxb.fragment", Boolean.TRUE);
 				marshaller.marshal(p, out);
 				response.append(out.toString());
+				response.append("\n");
 			}
 			
 			response.append("</playersOnline>");
-			response.append("<playerStats>");
+			response.append("<playerStats>\n");
 			
 			for(PlayerStatistics p : message.getPlayerStats()) {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -67,6 +70,7 @@ public class StatsSerializer {
 				marshaller.setProperty("jaxb.fragment", Boolean.TRUE);
 				marshaller.marshal(p, out);
 				response.append(out.toString());
+				response.append("\n");
 			}
 			
 			response.append("</playerStats>");
@@ -82,7 +86,7 @@ public class StatsSerializer {
 		return html;
 	}
 	
-	private static StatsSerializerMessage buildStatsMessage(PlayerStatistics[] rawStats) {
+	private static StatsSerializerMessage buildStatsMessage(List<PlayerStatistics> rawStats) {
 		//build the list of player names online. (java needs linq).
 		List<OnlinePlayer> playersOnline = new ArrayList<OnlinePlayer>();
 		for (Player p : etc.getServer().getPlayerList()) {
@@ -93,7 +97,7 @@ public class StatsSerializer {
 		}
 		
 		StatsSerializerMessage message = new StatsSerializerMessage();
-		message.setPlayersOnline(playersOnline.toArray(new OnlinePlayer[playersOnline.size()]));
+		message.setPlayersOnline(playersOnline);
 		message.setPlayerStats(rawStats);
 		return message;
 	}

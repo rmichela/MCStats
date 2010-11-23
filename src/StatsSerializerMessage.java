@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 //Copyright (C) 2010  Ryan Michela
 //
 //This program is free software: you can redistribute it and/or modify
@@ -14,31 +17,33 @@
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 public class StatsSerializerMessage {
-	private OnlinePlayer[] playersOnline;
-	private PlayerStatistics[] playerStats;
+	private List<OnlinePlayer> playersOnline;
+	private List<PlayerStatistics> playerStats;
 	
 	public StatsSerializerMessage()
 	{
-		playersOnline = new OnlinePlayer[0];
-		playerStats = new PlayerStatistics[0];
+		playersOnline = new ArrayList<OnlinePlayer>();
+		playerStats = new ArrayList<PlayerStatistics>();
 	}
 	
-	public OnlinePlayer[] getPlayersOnline() {
+	public List<OnlinePlayer> getPlayersOnline() {
 		OnlinePlayer noOne = new OnlinePlayer();
 		noOne.playerName = "No One";
+		ArrayList<OnlinePlayer> noOneList = new ArrayList<OnlinePlayer>();
+		noOneList.add(noOne);
 		
-		return playersOnline.length == 0 ? new OnlinePlayer[]{noOne} : playersOnline;
+		return playersOnline.size() == 0 ? noOneList : playersOnline;
 	}
 	
-	public void setPlayersOnline(OnlinePlayer[] playerList) {
+	public void setPlayersOnline(List<OnlinePlayer> playerList) {
 		this.playersOnline = playerList;
 	}
 	
-	public PlayerStatistics[] getPlayerStats() {
+	public List<PlayerStatistics> getPlayerStats() {
 		return playerStats;
 	}
 	
-	public void setPlayerStats(PlayerStatistics[] playerStats) {
+	public void setPlayerStats(List<PlayerStatistics> playerStats) {
 		this.playerStats = playerStats;
 	}
 }
