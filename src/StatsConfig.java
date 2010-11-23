@@ -54,4 +54,13 @@ public class StatsConfig {
 	public String getHttpServerContextRoot() {
 		return config.getString("httpServerContextRoot", "/");
 	}
+	
+	public String[] getPlayersToPurge() {
+		return config.getString("playersToPurge", "").split(" ");
+	}
+	
+	public void clearPlayersToPurge() {
+		config.setString("playersToPurge", "");
+		config.save();
+	}
 }

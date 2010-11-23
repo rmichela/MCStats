@@ -53,6 +53,12 @@ public class StatsPlugin extends SuperPlugin {
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.LOGIN, listener, this, PluginListener.Priority.MEDIUM));
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.PLAYER_MOVE, listener, this, PluginListener.Priority.MEDIUM));
 		
+		//purge any users marked for removal
+		for(String playerName : config.getPlayersToPurge()) {
+			model.purgePlayer(playerName);
+		}
+		config.clearPlayersToPurge();
+		
 		//start the http server if it's enabled
 		if (config.getWebserverEnabled()) {
 			String resource = config.getStatsBaseResource();

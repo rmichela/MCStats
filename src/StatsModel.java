@@ -115,6 +115,13 @@ public class StatsModel extends TimerTask {
 		}
 	}
 	
+	public void purgePlayer(String playerName) {
+		if(stats.containsKey(playerName)) {
+			stats.remove(playerName);
+			log.log(Level.INFO, "Purging player " + playerName);
+		}
+	}
+	
 	private void saveUserFile(String extension, String content, boolean overwrite) throws IOException
 	{
 		String path = config.getResourceSaveDirectory() + "/" + config.getStatsBaseResource() + extension;
