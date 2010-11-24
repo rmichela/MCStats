@@ -276,7 +276,7 @@ public class JSONEncoder<T> {
                             ? lastEncoder
                             : getEncoder(type);
 
-                    out.write(entry.getKey().toString());
+                    out.write("\"" + entry.getKey().toString() + "\"");
                     out.write(':');
                     enc.encode(entryValue, out);
 

@@ -14,9 +14,15 @@
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="player")
 @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -72,13 +78,13 @@ public class PlayerStatistics implements Serializable {
 	}
 
 	@XmlElement
-	public Date getPlayerSince() {
-		return playerSince;
+	public String getPlayerSince() {
+		return playerSince != null ? Long.toString(playerSince.getTime()) : null;
 	}
 	
 	@XmlElement
-	public Date getLastLogin() {
-		return lastLogin;
+	public String getLastLogin() {
+		return lastLogin != null ? Long.toString(lastLogin.getTime()) : null;
 	}
 
 	@XmlElement
@@ -160,5 +166,4 @@ public class PlayerStatistics implements Serializable {
 		
 		return acc;
 	}
-	
 }

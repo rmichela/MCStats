@@ -74,7 +74,7 @@ public class StatsHttpHandler implements HttpHandler {
 	}
 	
 	private void handleHtml(HttpExchange t) throws IOException {
-		String response = StatsSerializer.statsAsHtml();
+		String response = StatsSerializer.statsAsHtml(config);
 		
 		t.sendResponseHeaders(200, response.length());
 		OutputStream os = t.getResponseBody();

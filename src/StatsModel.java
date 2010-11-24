@@ -108,7 +108,7 @@ public class StatsModel extends TimerTask {
 			saveUserFile(".xml", StatsSerializer.statsAsXml(getRawStats()), true);
 			saveUserFile(".json", StatsSerializer.statsAsJson(getRawStats()), true);
 			saveUserFile(".js", StatsSerializer.statsAsJavascript(getRawStats()), true);
-			saveUserFile(".html", StatsSerializer.statsAsHtml(), true);
+			saveUserFile(".html", StatsSerializer.statsAsHtml(config), true);
 			
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error writing stats user files.", ex);

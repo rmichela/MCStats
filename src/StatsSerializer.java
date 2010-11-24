@@ -82,10 +82,6 @@ public class StatsSerializer {
 		return response.toString();
 	}
 	
-	public static String statsAsHtml() {
-		return html;
-	}
-	
 	private static StatsSerializerMessage buildStatsMessage(List<PlayerStatistics> rawStats) {
 		//build the list of player names online. (java needs linq).
 		List<OnlinePlayer> playersOnline = new ArrayList<OnlinePlayer>();
@@ -101,13 +97,14 @@ public class StatsSerializer {
 		message.setPlayerStats(rawStats);
 		return message;
 	}
-    
-    private static String html = 
+ 
+	public static String statsAsHtml(StatsConfig config) {
+		return 
 "<!DOCTYPE HTML>\n" +
 "<html>\n" +
 "	<head>\n" +
 "		<title>Minecraft Player Statistics</title>\n" +
-"		<meta http-equiv='refresh' content='10' >\n" +
+"		<meta http-equiv='refresh' content='" + config.getSecondsBetweenPageRefreshes() + "' >\n" +
 "		<style type='text/css'>\n" +
 "			h1 {\n" +
 "				font: bold 24px verdana, arial, helvetica, sans-serif;\n" +
@@ -200,7 +197,7 @@ public class StatsSerializer {
 "			<tbody id='statsTable'></tbody>\n" +
 "		</table>\n" +
 "\n" +
-"		<script src='mcstats.js'></script>\n" +
+"		<script src='" + config.getStatsBaseResource() + ".js'></script>\n" +
 "		<script>\n" +
 "			//build the Players Online list\n" +
 "			var playersOnline = document.getElementById('playersOnlineList');\n" +
@@ -274,10 +271,16 @@ public class StatsSerializer {
 "				return groupArray == null ? '' : ' ' + groupArray.join(' ');\n" +
 "			}\n" +
 "\n" +
-"			function formatDate(date) {\n" +
-"				return date == null ? '--' : (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();\n" +
+"			function formatDate(unixTimestamp) {\n" +
+"				if(unixTimestamp ==  null) {\n" +
+"					return '--';\n" +
+"				} else {\n" +
+"					var date = new Date(parseInt(unixTimestamp));\n" +
+"					return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();\n" +
+"				}\n" +
 "			}\n" +
 "		</script>\n" +
 "	</body>\n" +
 "</html>";
+	}
 }

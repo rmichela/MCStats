@@ -37,6 +37,10 @@ public class StatsConfig {
 	public int getSecondsBetweenSaves() {
 		return config.getInt("secondsBetweenSaves", 60);
 	}
+	
+	public int getSecondsBetweenPageRefreshes() {
+		return config.getInt("secondsBetweenPageRefreshes", 60);
+	}
 		
 	//webserver configuration
 	public boolean getWebserverEnabled() {
