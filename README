@@ -41,6 +41,9 @@ The following items can be configured in the MCStats.config file.
 * secondsBetweenSaves   - The number of seconds to wait between saving stats reports
                           and the statscache.
 
+* secondsBetweenPageRefreshes - The number of seconds to wait before automatically
+                                refreshing the html report in the browser.
+
 * httpServerContextRoot - The path part of the embedded web server's url. Must begin
                           and end with a slash (/). 
 
