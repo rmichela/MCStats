@@ -161,6 +161,26 @@ public class StatsSerializer {
 "			#stats td {\n" +
 "				white-space:nowrap;\n" +
 "			}\n" +
+"\n" +
+"			.admins {\n" +
+"				color: #FF4040;\n" +
+"			}\n" +
+"\n" +
+"			.mods {\n" +
+"				color: #088A85;\n" +
+"			}\n" +
+"\n" +
+"			.vip {\n" +
+"				color: #49FF40;\n" +
+"			}\n" +
+"\n" +
+"			.center {\n" +
+"				text-align: center;\n" +
+"			}\n" +
+"\n" +
+"			.right {\n" +
+"				text-align: right;\n" +
+"			}\n" +
 "		</style>\n" +
 "	</head>\n" +
 "	<body>\n" +
@@ -182,16 +202,16 @@ public class StatsSerializer {
 "		<table id='stats'>\n" +
 "			<thead>\n" +
 "				<tr>\n" +
-"					<th>Name</th>\n" +
-"					<th>Groups</th>\n" +
-"					<th>Placed</th>\n" +
-"					<th>Destroyed</th>\n" +
-"					<th>Dropped</th>\n" +
-"					<th>Meters Traveled</th>\n" +
-"					<th>Player Since</th>\n" +
-"					<th>Last Login</th>\n" +
-"					<th>Total Playtime</th>\n" +
-"					<th>Session Playtime</th>\n" +
+"					<th class='center'>Name</th>\n" +
+"					<th class='center'>Groups</th>\n" +
+"					<th class='center'>Placed</th>\n" +
+"					<th class='center'>Destroyed</th>\n" +
+"					<th class='center'>Dropped</th>\n" +
+"					<th class='center'>Meters Traveled</th>\n" +
+"					<th class='center'>Player Since</th>\n" +
+"					<th class='center'>Last Login</th>\n" +
+"					<th class='center'>Total Playtime</th>\n" +
+"					<th class='center'>Session Playtime</th>\n" +
 "				</tr>\n" +
 "			</thead>\n" +
 "			<tbody id='statsTable'></tbody>\n" +
@@ -230,27 +250,35 @@ public class StatsSerializer {
 "				playerGroups.innerHTML = groupConcat(ps.playerGroups);\n" +
 "\n" +
 "				var placed = tr.insertCell(col++);\n" +
+"				placed.setAttribute('class', 'right');\n" +
 "				placed.innerHTML = ps.blocksPlaced;\n" +
 "\n" +
 "				var destroyed = tr.insertCell(col++);\n" +
+"				destroyed.setAttribute('class', 'right');\n" +
 "				destroyed.innerHTML = ps.blocksDestroyed;\n" +
 "\n" +
 "				var dropped = tr.insertCell(col++);\n" +
+"				dropped.setAttribute('class', 'right');\n" +
 "				dropped.innerHTML = ps.itemsDropped;\n" +
 "\n" +
 "				var traveled = tr.insertCell(col++);\n" +
+"				traveled.setAttribute('class', 'right');\n" +
 "				traveled.innerHTML = ps.metersTraveled;\n" +
 "\n" +
 "				var playersince = tr.insertCell(col++);\n" +
+"				playersince.setAttribute('class', 'center');\n" +
 "				playersince.innerHTML = formatDate(ps.playerSince);\n" +
 "\n" +
 "				var lastLogin = tr.insertCell(col++);\n" +
+"				lastLogin.setAttribute('class', 'center');\n" +
 "				lastLogin.innerHTML = formatDate(ps.lastLogin);\n" +
 "\n" +
 "				var totalPlaytime = tr.insertCell(col++);\n" +
+"				totalPlaytime.setAttribute('class', 'right');\n" +
 "				totalPlaytime.innerHTML = ps.totalPlaytime;\n" +
 "\n" +
 "				var sessionPlaytime = tr.insertCell(col++);\n" +
+"				sessionPlaytime.setAttribute('class', 'right');\n" +
 "				sessionPlaytime.innerHTML = ps.sessionPlaytime;\n" +
 "\n" +
 "				document.getElementById('statsTable').appendChild(tr);\n" +
@@ -273,7 +301,7 @@ public class StatsSerializer {
 "\n" +
 "			function formatDate(unixTimestamp) {\n" +
 "				if(unixTimestamp ==  null) {\n" +
-"					return '--';\n" +
+"					return '';\n" +
 "				} else {\n" +
 "					var date = new Date(parseInt(unixTimestamp));\n" +
 "					return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();\n" +

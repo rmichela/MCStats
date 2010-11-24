@@ -103,7 +103,7 @@ public class PlayerStatistics implements Serializable {
 			long seccondsInSession = (new Date().getTime() - lastLogin.getTime()) / 1000;
 			return secondsToTimestamp(seccondsInSession);
 		} else {
-			return "--";
+			return "";
 		}
 	}
 	
@@ -154,7 +154,7 @@ public class PlayerStatistics implements Serializable {
 		long hours = seconds / 3600;
 		seconds %= 3600;
 		long minutes = seconds / 60;
-		return String.format("%s.%s hours", hours, (int)Math.floor(minutes/60.0*100.0));
+		return String.format("%s.%02d hours", hours, (int)Math.floor(minutes/60.0*100.0));
 	}
 	
 	private long mapCount(HashMap<Integer, Long> map) {
