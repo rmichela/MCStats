@@ -322,7 +322,7 @@ public class StatsSerializer {
 "			}\n" +
 "\n" +
 "			function formatDate(unixTimestamp) {\n" +
-"				if(unixTimestamp ==  null) {\n" +
+"				if(unixTimestamp == '') {\n" +
 "					return '';\n" +
 "				} else {\n" +
 "					var date = new Date(parseInt(unixTimestamp));\n" +
