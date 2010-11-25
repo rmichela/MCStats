@@ -247,7 +247,7 @@ public class StatsSerializer {
 "			for(i in mcStatsRawData.playersOnline)\n" +
 "			{\n" +
 "				var span = document.createElement('span');\n" +
-"				span.setAttribute('class', 'pOnline' + groupConcat(mcStatsRawData.playersOnline[i].groups));\n" +
+"				span.setAttribute('class', 'pOnline ' + groupConcat(mcStatsRawData.playersOnline[i].groups));\n" +
 "				span.innerHTML = mcStatsRawData.playersOnline[i].playerName;\n" +
 "				span.innerHTML += ' ';\n" +
 "				playersOnline.appendChild(span);\n" +
@@ -264,7 +264,7 @@ public class StatsSerializer {
 "\n" +
 "				var playerNameTd = tr.insertCell(col++);\n" +
 "				var playerNameSpan = document.createElement('span');\n" +
-"				playerNameSpan.setAttribute('class', 'pName' + groupConcat(ps.playerGroups));\n" +
+"				playerNameSpan.setAttribute('class', 'pName ' + groupConcat(ps.playerGroups));\n" +
 "				playerNameSpan.innerHTML = ps.playerName;\n" +
 "				playerNameTd.appendChild(playerNameSpan);\n" +
 "\n" +
@@ -318,7 +318,7 @@ public class StatsSerializer {
 "			}\n" +
 "\n" +
 "			function groupConcat(groupArray) {\n" +
-"				return groupArray == null ? '' : ' ' + groupArray.join(' ');\n" +
+"				return groupArray == null ? '' : $.trim(' ' + groupArray.join(' '));\n" +
 "			}\n" +
 "\n" +
 "			function formatDate(unixTimestamp) {\n" +
@@ -332,7 +332,17 @@ public class StatsSerializer {
 "\n" +
 "			//sortable columns\n" +
 "			$(document).ready(function() { \n" +
-"				$('#stats').tablesorter(); \n" +
+"				$('#stats').tablesorter({  \n" +
+"        			// define a custom text extraction function  \n" +
+"       			textExtraction: function(node) {  \n" +
+"            			// extract data from markup and return it   \n" +
+"            			if(node.childNodes[0] != null && node.childNodes[0].nodeName == 'SPAN') {\n" +
+"							return node.childNodes[0].innerHTML\n;" +
+"						} else {\n" +
+"							return node.innerHTML.split(' ')[0];  \n" +
+"						}\n" +
+"	        		}  \n" +
+"    			});   \n" +
 "			}); \n" +
 "		</script>\n" +
 "	</body>\n" +
