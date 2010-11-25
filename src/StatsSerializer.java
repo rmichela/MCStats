@@ -138,18 +138,38 @@ public class StatsSerializer {
 "				height:30px;\n" +
 "			}\n" +
 "\n" +			
-"			thead th {\n" +
-"				padding:5px;\n" +
+"			th {\n" +
+"				padding: 5px;\n" +
+"			}\n" +
+"\n" +
+"			#stats th {\n" +
+"				background-repeat: no-repeat;\n" +	
+"				background-position: center right;\n" +	
+"				cursor: pointer;\n" +
+"				padding-right: 20px;\n" +
 "			}\n" +
 "\n" +			
 "			tr.odd {\n" +
 "				background: #f1f1f1;\n" +
 "			}\n" +
 "\n" +			
-"			tbody th, tbody td {\n" +
+"			td {\n" +
 "				padding:5px;\n" +
+"				border-right: 1px ridge #d2d2d2;\n" +
 "			}\n" +
-"\n" +			
+"\n" +
+"			th.header {\n" +
+"				background-image:url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw%3D%3D);\n" +
+"			}\n" +
+"\n" +	
+"			th.headerSortDown {\n" +
+"				background-image:url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);\n" +
+"			}\n" +
+"\n" +	
+"			th.headerSortUp {\n" +
+"				background-image:url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);\n" +
+"			}\n" +
+"\n" +	
 "			.pName {\n" +
 "				font-weight:bold;\n" +
 "			}\n" +
@@ -196,28 +216,30 @@ public class StatsSerializer {
 "					<td id='playersOnlineList'>\n" +
 "					</td>\n" +
 "				</tr>\n" +
-"			</tbody\n" +
+"			</tbody>\n" +
 "		</table>\n" +
 "		<br/>	\n" +
 "		<table id='stats'>\n" +
 "			<thead>\n" +
 "				<tr>\n" +
-"					<th class='center'>Name</th>\n" +
-"					<th class='center'>Groups</th>\n" +
-"					<th class='center'>Placed</th>\n" +
-"					<th class='center'>Destroyed</th>\n" +
-"					<th class='center'>Dropped</th>\n" +
-"					<th class='center'>Meters Traveled</th>\n" +
-"					<th class='center'>Player Since</th>\n" +
-"					<th class='center'>Last Login</th>\n" +
-"					<th class='center'>Total Playtime</th>\n" +
-"					<th class='center'>Session Playtime</th>\n" +
+"					<th>Name</th>\n" +
+"					<th>Groups</th>\n" +
+"					<th>Placed</th>\n" +
+"					<th>Destroyed</th>\n" +
+"					<th>Dropped</th>\n" +
+"					<th>Meters Traveled</th>\n" +
+"					<th>Player Since</th>\n" +
+"					<th>Last Login</th>\n" +
+"					<th>Total Playtime</th>\n" +
+"					<th>Session Playtime</th>\n" +
 "				</tr>\n" +
 "			</thead>\n" +
 "			<tbody id='statsTable'></tbody>\n" +
 "		</table>\n" +
 "\n" +
 "		<script src='" + config.getStatsBaseResource() + ".js'></script>\n" +
+"		<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>\n" +
+"		<script src='http://tablesorter.com/jquery.tablesorter.min.js'></script>\n" +
 "		<script>\n" +
 "			//build the Players Online list\n" +
 "			var playersOnline = document.getElementById('playersOnlineList');\n" +
@@ -307,6 +329,11 @@ public class StatsSerializer {
 "					return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();\n" +
 "				}\n" +
 "			}\n" +
+"\n" +
+"			//sortable columns\n" +
+"			$(document).ready(function() { \n" +
+"				$('#stats').tablesorter(); \n" +
+"			}); \n" +
 "		</script>\n" +
 "	</body>\n" +
 "</html>";
