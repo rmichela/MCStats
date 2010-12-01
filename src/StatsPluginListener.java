@@ -24,8 +24,7 @@ public class StatsPluginListener extends PluginListener {
 	}
 	
 	@Override
-	public boolean onBlockCreate(Player player, Block blockPlaced,
-			Block blockClicked, int itemInHand) {
+	public boolean onBlockPlace(Player player, Block blockPlaced, Block blockClicked, Item itemInHand) {
 		
 		psm.placeABlock(player, blockPlaced);
 		
@@ -34,6 +33,8 @@ public class StatsPluginListener extends PluginListener {
 
 	@Override
 	public boolean onBlockBreak(Player player, Block block) {
+		System.out.println("block break");
+		
 		psm.destroyABlock(player, block);
 		return false;
 	}

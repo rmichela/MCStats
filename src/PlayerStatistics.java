@@ -79,12 +79,12 @@ public class PlayerStatistics implements Serializable {
 
 	@XmlElement
 	public String getPlayerSince() {
-		return playerSince != null ? Long.toString(playerSince.getTime()) : "";
+		return playerSince != null ? Long.toString(playerSince.getTime()/1000L) : "";
 	}
 	
 	@XmlElement
 	public String getLastLogin() {
-		return lastLogin != null ? Long.toString(lastLogin.getTime()) : "";
+		return lastLogin != null ? Long.toString(lastLogin.getTime()/1000L) : "";
 	}
 
 	@XmlElement

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
@@ -61,8 +62,13 @@ public abstract class SuperPlugin extends Plugin {
 	}
 
 	private void reloadConfig() {
-		baseConfig.load();
-		reloadExtra();
+		try {
+			baseConfig.load();
+			reloadExtra();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			log.warning("Error loading mcstats.config");
+		}
 	}
 
 	/**

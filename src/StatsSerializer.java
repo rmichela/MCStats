@@ -263,44 +263,46 @@ public class StatsSerializer {
 "				var tr = document.createElement('tr');\n" +
 "\n" +
 "				var playerNameTd = tr.insertCell(col++);\n" +
+"				playerNameTd.setAttribute('class', 'player');\n" +
 "				var playerNameSpan = document.createElement('span');\n" +
 "				playerNameSpan.setAttribute('class', 'pName ' + groupConcat(ps.playerGroups));\n" +
 "				playerNameSpan.innerHTML = ps.playerName;\n" +
 "				playerNameTd.appendChild(playerNameSpan);\n" +
 "\n" +
 "				var playerGroups = tr.insertCell(col++);\n" +
+"				playerGroups.setAttribute('class', 'text');\n" +
 "				playerGroups.innerHTML = groupConcat(ps.playerGroups);\n" +
 "\n" +
 "				var placed = tr.insertCell(col++);\n" +
-"				placed.setAttribute('class', 'right');\n" +
+"				placed.setAttribute('class', 'right number');\n" +
 "				placed.innerHTML = ps.blocksPlaced;\n" +
 "\n" +
 "				var destroyed = tr.insertCell(col++);\n" +
-"				destroyed.setAttribute('class', 'right');\n" +
+"				destroyed.setAttribute('class', 'right number');\n" +
 "				destroyed.innerHTML = ps.blocksDestroyed;\n" +
 "\n" +
 "				var dropped = tr.insertCell(col++);\n" +
-"				dropped.setAttribute('class', 'right');\n" +
+"				dropped.setAttribute('class', 'right number');\n" +
 "				dropped.innerHTML = ps.itemsDropped;\n" +
 "\n" +
 "				var traveled = tr.insertCell(col++);\n" +
-"				traveled.setAttribute('class', 'right');\n" +
+"				traveled.setAttribute('class', 'right number');\n" +
 "				traveled.innerHTML = ps.metersTraveled;\n" +
 "\n" +
 "				var playersince = tr.insertCell(col++);\n" +
-"				playersince.setAttribute('class', 'center');\n" +
+"				playersince.setAttribute('class', 'center date');\n" +
 "				playersince.innerHTML = formatDate(ps.playerSince);\n" +
 "\n" +
 "				var lastLogin = tr.insertCell(col++);\n" +
-"				lastLogin.setAttribute('class', 'center');\n" +
+"				lastLogin.setAttribute('class', 'center date');\n" +
 "				lastLogin.innerHTML = formatDate(ps.lastLogin);\n" +
 "\n" +
 "				var totalPlaytime = tr.insertCell(col++);\n" +
-"				totalPlaytime.setAttribute('class', 'right');\n" +
+"				totalPlaytime.setAttribute('class', 'right duration');\n" +
 "				totalPlaytime.innerHTML = ps.totalPlaytime;\n" +
 "\n" +
 "				var sessionPlaytime = tr.insertCell(col++);\n" +
-"				sessionPlaytime.setAttribute('class', 'right');\n" +
+"				sessionPlaytime.setAttribute('class', 'right duration');\n" +
 "				sessionPlaytime.innerHTML = ps.sessionPlaytime;\n" +
 "\n" +
 "				document.getElementById('statsTable').appendChild(tr);\n" +
@@ -325,7 +327,7 @@ public class StatsSerializer {
 "				if(unixTimestamp == '') {\n" +
 "					return '';\n" +
 "				} else {\n" +
-"					var date = new Date(parseInt(unixTimestamp));\n" +
+"					var date = new Date(parseInt(unixTimestamp * 1000));\n" +
 "					return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();\n" +
 "				}\n" +
 "			}\n" +
@@ -333,16 +335,23 @@ public class StatsSerializer {
 "			//sortable columns\n" +
 "			$(document).ready(function() { \n" +
 "				$('#stats').tablesorter({  \n" +
-"        			// define a custom text extraction function  \n" +
 "       			textExtraction: function(node) {  \n" +
-"            			// extract data from markup and return it   \n" +
-"            			if(node.childNodes[0] != null && node.childNodes[0].nodeName == 'SPAN') {\n" +
-"							return node.childNodes[0].innerHTML\n;" +
-"						} else {\n" +
+"            			if(node.className.indexOf('player') != -1) {\n" +
+"							return node.childNodes[0].innerHTML; \n" +
+"						} else if(node.className.indexOf('text') != -1) {\n" +
+"							return node.innerHTML;  \n" +
+"						} else if(node.className.indexOf('number') != -1) {\n" +
+"							node.innerHTML;  \n" +
+"						} else if(node.className.indexOf('date') != -1) {\n" +
+"							var split =  node.innerHTML.split('/');  \n" +
+"							return split[2] + split[0] + split[1];" +
+"						} else if(node.className.indexOf('duration') != -1) {\n" +
 "							return node.innerHTML.split(' ')[0];  \n" +
-"						}\n" +
-"	        		}  \n" +
-"    			});   \n" +
+"						}  {\n" +
+"							return node.innerHTML;\n" +
+"						} \n" +
+"	        		} \n" +
+"    			}) \n" +
 "			}); \n" +
 "		</script>\n" +
 "	</body>\n" +
