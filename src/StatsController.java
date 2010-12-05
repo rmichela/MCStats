@@ -93,6 +93,15 @@ public class StatsController {
 		}
 	}
 	
+	//Note that the player has had a health changing event
+	public void healthChange(Player player, int oldValue, int newValue) {
+		PlayerStatistics ps = getPlayerStats(player);
+		//Has the player died?
+		if(newValue ==  0) {
+			ps.deaths++;
+		}
+	}
+	
 	private PlayerStatistics getPlayerStats(Player player)
 	{
 		if(!stats.containsKey(player.getName()))

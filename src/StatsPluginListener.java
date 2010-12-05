@@ -27,16 +27,13 @@ public class StatsPluginListener extends PluginListener {
 	public boolean onBlockPlace(Player player, Block blockPlaced, Block blockClicked, Item itemInHand) {
 		
 		psm.placeABlock(player, blockPlaced);
-		
-		return false;
+		return super.onBlockPlace(player, blockPlaced, blockClicked, itemInHand);
 	}
 
 	@Override
 	public boolean onBlockBreak(Player player, Block block) {
-		System.out.println("block break");
-		
 		psm.destroyABlock(player, block);
-		return false;
+		return super.onBlockBreak(player, block);
 	}
 
 	@Override
@@ -50,7 +47,7 @@ public class StatsPluginListener extends PluginListener {
 		
 		psm.dropAnItem(player, item);
 		
-		return false;
+		return super.onItemDrop(player, item);
 	}
 
 	@Override
@@ -61,6 +58,12 @@ public class StatsPluginListener extends PluginListener {
 	@Override
 	public void onPlayerMove(Player player, Location from, Location to) {
 		psm.travelAMeter(player);
+	}
+
+	@Override
+	public boolean onHealthChange(Player player, int oldValue, int newValue) {
+		psm.healthChange(player, oldValue, newValue);
+		return super.onHealthChange(player, oldValue, newValue);
 	}
 	
 }

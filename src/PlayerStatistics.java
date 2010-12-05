@@ -37,6 +37,7 @@ public class PlayerStatistics implements Serializable {
 	public HashMap<Integer, Long> blocksPlaced;
 	public HashMap<Integer, Long> blocksDestroyed;
 	public HashMap<Integer, Long> itemsDropped;
+	public long deaths;
 	
 	public Date sessionMarkTime;
 	
@@ -147,6 +148,11 @@ public class PlayerStatistics implements Serializable {
 
 	public HashMap<Integer, Long> getItemsDroppedDetails() {
 		return itemsDropped;
+	}
+	
+	@XmlElement
+	public long getDeaths() {
+		return deaths;
 	}
 	
 	// Utility methods
