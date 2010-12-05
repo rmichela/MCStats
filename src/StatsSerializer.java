@@ -226,8 +226,10 @@ public class StatsSerializer {
 "					<th>Groups</th>\n" +
 "					<th>Placed</th>\n" +
 "					<th>Destroyed</th>\n" +
-"					<th>Dropped</th>\n" +
 "					<th>Meters Traveled</th>\n" +
+"					<th>Player Kills</th>\n" +
+"					<th>Creature Kills</th>\n" +
+"					<th>Deaths</th>\n" +
 "					<th>Player Since</th>\n" +
 "					<th>Last Login</th>\n" +
 "					<th>Total Playtime</th>\n" +
@@ -281,13 +283,21 @@ public class StatsSerializer {
 "				destroyed.setAttribute('class', 'right number');\n" +
 "				destroyed.innerHTML = ps.blocksDestroyed;\n" +
 "\n" +
-"				var dropped = tr.insertCell(col++);\n" +
-"				dropped.setAttribute('class', 'right number');\n" +
-"				dropped.innerHTML = ps.itemsDropped;\n" +
-"\n" +
 "				var traveled = tr.insertCell(col++);\n" +
 "				traveled.setAttribute('class', 'right number');\n" +
 "				traveled.innerHTML = ps.metersTraveled;\n" +
+"\n" +
+"				var playerKills = tr.insertCell(col++);\n" +
+"				playerKills.setAttribute('class', 'right number');\n" +
+"				playerKills.innerHTML = ps.playerKills ;\n" +
+"\n" +
+"				var creatureKills = tr.insertCell(col++);\n" +
+"				creatureKills.setAttribute('class', 'right number');\n" +
+"				creatureKills.innerHTML = ps.creatureKills;\n" +
+"\n" +
+"				var deaths = tr.insertCell(col++);\n" +
+"				deaths.setAttribute('class', 'right number');\n" +
+"				deaths.innerHTML = ps.deaths;\n" +
 "\n" +
 "				var playersince = tr.insertCell(col++);\n" +
 "				playersince.setAttribute('class', 'center date');\n" +
