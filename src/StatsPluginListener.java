@@ -16,54 +16,77 @@
 
 public class StatsPluginListener extends PluginListener {
 
-	private StatsController psm;
+	private StatsController controller;
 	
 	public StatsPluginListener(StatsController psm)
 	{
-		this.psm = psm;
+		this.controller = psm;
 	}
 	
 	@Override
 	public boolean onBlockPlace(Player player, Block blockPlaced, Block blockClicked, Item itemInHand) {
 		
-		psm.placeABlock(player, blockPlaced);
+		controller.placeABlock(player, blockPlaced);
 		return super.onBlockPlace(player, blockPlaced, blockClicked, itemInHand);
 	}
 
 	@Override
 	public boolean onBlockBreak(Player player, Block block) {
-		psm.destroyABlock(player, block);
+		controller.destroyABlock(player, block);
 		return super.onBlockBreak(player, block);
 	}
 
 	@Override
 	public void onDisconnect(Player player) {
 		
-		psm.logOut(player);
+		controller.logOut(player);
 	}
 
 	@Override
 	public boolean onItemDrop(Player player, Item item) {
 		
-		psm.dropAnItem(player, item);
+		controller.dropAnItem(player, item);
 		
 		return super.onItemDrop(player, item);
 	}
 
 	@Override
 	public void onLogin(Player player) {
-		psm.logIn(player);
+		controller.logIn(player);
 	}
 
 	@Override
 	public void onPlayerMove(Player player, Location from, Location to) {
-		psm.travelAMeter(player);
+		controller.travelAMeter(player);
 	}
 
 	@Override
-	public boolean onHealthChange(Player player, int oldValue, int newValue) {
-		psm.healthChange(player, oldValue, newValue);
-		return super.onHealthChange(player, oldValue, newValue);
+	public boolean onDamage(PluginLoader.DamageType type, BaseEntity attacker, BaseEntity defender, int amount) {
+		
+		// Did the attacker kill?
+		if(defender instanceof LivingEntity) {
+			LivingEntity livingDefender = (LivingEntity) defender;
+				
+			if(livingDefender.getHealth() - amount <= 0) {	
+				// We have a successful kill
+				
+				// If the defender was a player, note the death
+				if(livingDefender.isPlayer()) {
+					controller.die(livingDefender.getPlayer());
+				}
+				
+				// If the attacker was a player, note the kill
+				if(attacker != null && attacker.isPlayer()) {
+					controller.kill(attacker.getPlayer(), livingDefender);
+				}
+			}
+		}
+		
+		
+		
+		return super.onDamage(type, attacker, defender, amount);
 	}
+
+
 	
 }

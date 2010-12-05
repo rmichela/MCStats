@@ -38,6 +38,8 @@ public class PlayerStatistics implements Serializable {
 	public HashMap<Integer, Long> blocksDestroyed;
 	public HashMap<Integer, Long> itemsDropped;
 	public long deaths;
+	public HashMap<String, Long> creatureKills;
+	public HashMap<String, Long> playerKills;
 	
 	public Date sessionMarkTime;
 	
@@ -45,6 +47,8 @@ public class PlayerStatistics implements Serializable {
 		blocksPlaced = new HashMap<Integer, Long>();
 		blocksDestroyed = new HashMap<Integer, Long>();
 		itemsDropped = new HashMap<Integer, Long>();
+		creatureKills = new HashMap<String, Long>();
+		playerKills = new HashMap<String, Long>();
 	}
 	
 	public void flushSessionPlaytime() {
@@ -155,6 +159,24 @@ public class PlayerStatistics implements Serializable {
 		return deaths;
 	}
 	
+	@XmlElement 
+	public long getPlayerKills() {
+		return mapCount(playerKills);
+	}
+	
+	public HashMap<String, Long> getPlayerKillsDetails() {
+		return playerKills;
+	}
+	
+	@XmlElement 
+	public long getCreatureKills() {
+		return mapCount(creatureKills);
+	}
+	
+	public HashMap<String, Long> getCreatureKillsDetails() {
+		return creatureKills;
+	}
+	
 	// Utility methods
 	private String secondsToTimestamp(long seconds) {
 		long hours = seconds / 3600;
@@ -163,11 +185,11 @@ public class PlayerStatistics implements Serializable {
 		return String.format("%s.%02d hours", hours, (int)Math.floor(minutes/60.0*100.0));
 	}
 	
-	private long mapCount(HashMap<Integer, Long> map) {
+	private long mapCount(HashMap map) {
 		long acc = 0L;
 		
-		for(long l : map.values()) {
-			acc += l;
+		for(Object l : map.values()) {
+			acc += (Long)l;
 		}		
 		
 		return acc;

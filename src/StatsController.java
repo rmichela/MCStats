@@ -93,12 +93,35 @@ public class StatsController {
 		}
 	}
 	
-	//Note that the player has had a health changing event
-	public void healthChange(Player player, int oldValue, int newValue) {
+	//Note that the player has died
+	public void die(Player player) {
 		PlayerStatistics ps = getPlayerStats(player);
-		//Has the player died?
-		if(newValue ==  0) {
-			ps.deaths++;
+		ps.deaths++;
+	}
+	
+	//Note that the player killed something
+	public void kill(Player attacker, LivingEntity victim) {
+		PlayerStatistics ps = getPlayerStats(attacker);
+		
+		if(victim.isPlayer()) {
+			// Increment the correct player kill counter
+			String victimName = victim.getPlayer().getName();
+			if(!ps.playerKills.containsKey(victimName)) {
+				ps.playerKills.put(victimName, 0L);
+			}
+			ps.playerKills.put(victimName, ps.playerKills.get(victimName) + 1);
+		} else if(victim.isMob()) {
+			String victimName = "Mob"; //((Mob)victim).getName();
+			if(!ps.creatureKills.containsKey(victimName)) {
+				ps.creatureKills.put(victimName, 0L);
+			}
+			ps.creatureKills.put(victimName, ps.creatureKills.get(victimName) + 1);
+		} else if(victim.isAnimal()) {
+			String victimName = "Animal"; //((Animal)victim).getName();
+			if(!ps.creatureKills.containsKey(victimName)) {
+				ps.creatureKills.put(victimName, 0L);
+			}
+			ps.creatureKills.put(victimName, ps.creatureKills.get(victimName) + 1);
 		}
 	}
 	

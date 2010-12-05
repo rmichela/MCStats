@@ -38,7 +38,7 @@ public class StatsModel extends TimerTask {
 			try {
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(config.getStatsCacheFile()));
 				stats = (HashMap<String, PlayerStatistics>) in.readObject();
-				cleanStats();
+				upgradeStats();
 			} catch (Exception e) {
 				log.log(Level.SEVERE, "MCStats failed to restore player statistics.", e);
 				stats = new HashMap<String, PlayerStatistics>();
@@ -51,9 +51,9 @@ public class StatsModel extends TimerTask {
 	}
 	
 	/*
-	 * cleanStats is called after load and fixes any glitches that may be in the stats model
+	 * upgradeStats is called after load and fixes any glitches that may be in the stats model
 	 */
-	private void cleanStats() {
+	private void upgradeStats() {
 		//1. Remove any block types with id less than 1
 		for(PlayerStatistics ps : stats.values()) {
 			ps.blocksPlaced.remove(0);
@@ -62,6 +62,15 @@ public class StatsModel extends TimerTask {
 			ps.blocksDestroyed.remove(-1);
 			ps.itemsDropped.remove(0);
 			ps.itemsDropped.remove(-1);
+		}
+		
+		//2. Fix any null collections
+		for(PlayerStatistics ps : stats.values()) {
+			if(ps.blocksPlaced == null) ps.blocksPlaced = new HashMap<Integer, Long>();
+			if(ps.blocksDestroyed == null) ps.blocksDestroyed = new HashMap<Integer, Long>();
+			if(ps.itemsDropped == null) ps.itemsDropped = new HashMap<Integer, Long>();
+			if(ps.creatureKills == null) ps.creatureKills = new HashMap<String, Long>();
+			if(ps.playerKills == null) ps.playerKills = new HashMap<String, Long>();
 		}
 	}
 	
