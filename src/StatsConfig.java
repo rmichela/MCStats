@@ -41,6 +41,10 @@ public class StatsConfig {
 	public int getSecondsBetweenPageRefreshes() {
 		return config.getInt("secondsBetweenPageRefreshes", 60);
 	}
+	
+	public boolean getIgnoreGrouplessUsers () {
+		return config.getBoolean("ignoreGrouplessUsers", false);
+	}
 		
 	//webserver configuration
 	public boolean getWebserverEnabled() {
