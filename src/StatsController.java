@@ -26,6 +26,7 @@ public class StatsController {
 	
 	//Mark the player's connect time in the playclockStart field of stats
 	public void logIn(Player player) {
+		if(ignorePlayer(player)) return;
 		PlayerStatistics ps = getPlayerStats(player);
 		ps.sessionMarkTime = new Date();
 		ps.playerGroups = player.getGroups();
@@ -41,6 +42,7 @@ public class StatsController {
 	
 	//Add total play time to the player's secondsOnServer
 	public void logOut(Player player) {
+		if(ignorePlayer(player)) return;
 		PlayerStatistics ps = getPlayerStats(player);
 		ps.flushSessionPlaytime();
 		ps.sessionMarkTime = null;
@@ -55,6 +57,7 @@ public class StatsController {
 	
 	//Note that the player has traveled a meter
 	public void travelAMeter(Player player) {
+		if(ignorePlayer(player)) return;
 		PlayerStatistics ps = getPlayerStats(player);
 		ps.metersTraveled++;
 	}
@@ -62,6 +65,7 @@ public class StatsController {
 	//Note that the player has placed a block
 	public void placeABlock(Player player, Block block) {
 		if (block.getType() > 0) {
+			if(ignorePlayer(player)) return;
 			PlayerStatistics ps = getPlayerStats(player);
 			if (!ps.blocksPlaced.containsKey(block.getType())) {
 				ps.blocksPlaced.put(block.getType(), 0L);
@@ -74,6 +78,7 @@ public class StatsController {
 	//Note that the player has destroyed a block
 	public void destroyABlock(Player player, Block block) {
 		if (block.getType() > 0) {
+			if(ignorePlayer(player)) return;
 			PlayerStatistics ps = getPlayerStats(player);
 			if (!ps.blocksDestroyed.containsKey(block.getType())) {
 				ps.blocksDestroyed.put(block.getType(), 0L);
@@ -86,6 +91,7 @@ public class StatsController {
 	//Note that the player disposed of an item
 	public void dropAnItem(Player player, Item item) { 
 		if (item.getItemId() > 0) {
+			if(ignorePlayer(player)) return;
 			PlayerStatistics ps = getPlayerStats(player);
 			if (!ps.itemsDropped.containsKey(item.getItemId())) {
 				ps.itemsDropped.put(item.getItemId(), 0L);
@@ -97,12 +103,14 @@ public class StatsController {
 	
 	//Note that the player has died
 	public void die(Player player) {
+		if(ignorePlayer(player)) return;
 		PlayerStatistics ps = getPlayerStats(player);
 		ps.deaths++;
 	}
 	
 	//Note that the player killed something
 	public void kill(Player attacker, LivingEntity victim) {
+		if(ignorePlayer(attacker)) return;
 		PlayerStatistics ps = getPlayerStats(attacker);
 		
 		if(victim.isPlayer()) {
@@ -139,5 +147,14 @@ public class StatsController {
 			}
 		}
 		return stats.get(player.getName());
+	}
+	
+	// Ignore players with no group if ignoreGrouplessPlayers is true.
+	private boolean ignorePlayer(Player player) {
+		if(config.ignoreGrouplessPlayers() && player.getGroups().length == 0 ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
