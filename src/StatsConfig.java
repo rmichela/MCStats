@@ -75,4 +75,13 @@ public class StatsConfig {
 	public boolean getOverwriteHtmlReport() {
 		return config.getBoolean("overwriteHtmlReport", true);
 	}
+	
+	public boolean getResetPlaytime() {
+		return config.getBoolean("resetPlaytime", false);
+	}
+	
+	public void clearResetPlaytime() {
+		config.setBoolean("resetPlaytime", false);
+		config.save();
+	}
 }

@@ -114,9 +114,10 @@ public class StatsModel extends TimerTask {
 				dir.mkdirs();
 			}
 			
-			saveUserFile(".xml", StatsSerializer.statsAsXml(getRawStats()), true);
-			saveUserFile(".json", StatsSerializer.statsAsJson(getRawStats()), true);
-			saveUserFile(".js", StatsSerializer.statsAsJavascript(getRawStats()), true);
+			List<PlayerStatistics> rawStats = getRawStats();
+			saveUserFile(".xml", StatsSerializer.statsAsXml(rawStats), true);
+			saveUserFile(".json", StatsSerializer.statsAsJson(rawStats), true);
+			saveUserFile(".js", StatsSerializer.statsAsJavascript(rawStats), true);
 			saveUserFile(".html", StatsSerializer.statsAsHtml(config), config.getOverwriteHtmlReport());
 			
 		} catch (IOException ex) {
@@ -147,6 +148,15 @@ public class StatsModel extends TimerTask {
 		synchronized (stats) {
 			//Copies references to the PlayerStats objects into a new array, preserving thread safety.
 			return new ArrayList<PlayerStatistics>(stats.values());
+		}
+	}
+	
+	//Resets all player playtimes to zero
+	public void resetAllPlaytimes()	{
+		synchronized(stats) {
+			for(PlayerStatistics ps : stats.values()) {
+				ps.secondsOnServer = 0;
+			}
 		}
 	}
 	

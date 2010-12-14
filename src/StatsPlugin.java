@@ -45,7 +45,7 @@ public class StatsPlugin extends SuperPlugin {
 	@Override
 	//Attach listener hooks
 	public void enableExtra() {
-		//configure hey0 hooks
+		//configure hMod hooks
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_PLACE, listener, this, PluginListener.Priority.LOW));
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_BROKEN, listener, this, PluginListener.Priority.LOW));
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.DISCONNECT, listener, this, PluginListener.Priority.LOW));
@@ -60,6 +60,13 @@ public class StatsPlugin extends SuperPlugin {
 			model.purgePlayer(playerName);
 		}
 		config.clearPlayersToPurge();
+		
+		//reset all playtimes if requested
+		if(config.getResetPlaytime()) {
+			log.log(Level.INFO, "Resetting all player play times");
+			model.resetAllPlaytimes();
+			config.clearResetPlaytime();
+		}
 		
 		//start the http server if it's enabled
 		if (config.getWebserverEnabled()) {

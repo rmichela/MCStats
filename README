@@ -26,6 +26,15 @@ players were removed when the module reloads. Once the selected players have bee
 successfully purged from the statistics cache, the playersToPurge property will be
 cleared.
 
+MCStats can be configured to ignore players without a group assignment. When 
+ignoreGrouplessPlayers is set to true in the config, only players with group assignments
+will be added to the statistics cache. This feature can be useful for separating your
+recurring players from guests of your server.
+
+If you only want to reset all the player playtimes to zero, set the resetPlaytime flag
+to true in the config and reload MCStats. When MCStats reloads, all playtimes will be
+reset and the flag will be cleared in the config file.
+
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<< C O N F I G U R A T I O N >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 The following items can be configured in the MCStats.config file.
@@ -69,6 +78,9 @@ The following items can be configured in the MCStats.config file.
 
 * playersToPurge        
 - A list of player names to remove from the stats cache, separated by spaces.
+
+* resetPlaytime
+- Default False. If set to true, all player playtimes will be reset to zero.
 
 * ignoreGrouplessPlayers
 - Default False. If true, players not assigned to any groups are completely ignored by MCStats.
