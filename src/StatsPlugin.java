@@ -49,6 +49,7 @@ public class StatsPlugin extends SuperPlugin {
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_PLACE, listener, this, PluginListener.Priority.LOW));
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_BROKEN, listener, this, PluginListener.Priority.LOW));
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.DISCONNECT, listener, this, PluginListener.Priority.LOW));
+		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BAN, listener, this, PluginListener.Priority.LOW));
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.ITEM_DROP, listener, this, PluginListener.Priority.LOW));
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.LOGIN, listener, this, PluginListener.Priority.LOW));
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.PLAYER_MOVE, listener, this, PluginListener.Priority.LOW));
@@ -88,6 +89,7 @@ public class StatsPlugin extends SuperPlugin {
 		}
 		//register a shutdown hook
 		Runtime.getRuntime().addShutdownHook(hook);
+		controller.logOutAllPlayers();
 		controller.logInOnlinePlayers();
 		model.startPersisting();
 	}
@@ -118,7 +120,9 @@ public class StatsPlugin extends SuperPlugin {
 	
 	private class ShutdownHook extends Thread {
 		public void run() { 
-			model.saveStats(); System.out.println("MCStats persisting player statistics on exit.");
+			controller.logOutAllPlayers();
+			model.saveStats(); 
+			System.out.println("MCStats persisting player statistics on exit.");
 		}
 	}
 

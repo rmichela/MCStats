@@ -87,6 +87,13 @@ public class StatsPluginListener extends PluginListener {
 		return super.onDamage(type, attacker, defender, amount);
 	}
 
+	@Override
+	public void onBan(Player mod, Player player, String reason) {
+		//log out players who are banned so they don't keep accumulating play time
+		controller.logOut(player);
+		super.onBan(mod, player, reason);
+	}
 
+	
 	
 }
