@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class StatsModel extends TimerTask {
+public class StatsModel {
 
 	private StatsConfig config;
 	private Logger log;
@@ -80,7 +80,7 @@ public class StatsModel extends TimerTask {
 	
 	public void startPersisting() {
 		long period = config.getSecondsBetweenSaves() * 1000;
-		t.scheduleAtFixedRate(this, period, period);
+		t.scheduleAtFixedRate(new StatsTimerTask(), period, period);
 	}
 	
 	public void stopPersisting() {
@@ -160,10 +160,12 @@ public class StatsModel extends TimerTask {
 		}
 	}
 	
-	@Override
-	//called by the timer every few seconds
-	public void run() {
-		saveStats();
-		saveUserFiles();
+	private class StatsTimerTask extends TimerTask {	
+		@Override
+		//called by the timer every few seconds
+		public void run() {
+			saveStats();
+			saveUserFiles();
+		}
 	}
 }
