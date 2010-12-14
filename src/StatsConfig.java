@@ -71,4 +71,8 @@ public class StatsConfig {
 		config.setString("playersToPurge", "");
 		config.save();
 	}
+	
+	public boolean getOverwriteHtmlReport() {
+		return config.getBoolean("overwriteHtmlReport", true);
+	}
 }

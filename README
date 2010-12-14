@@ -55,6 +55,12 @@ The following items can be configured in the MCStats.config file.
   Note: This property only controls the middle part of the url.
         Not the file name or the server name.
 
+* overwriteHtmlReport
+- Default True. Sets or disables the automatic overwriting of the HTML report file. Useful for
+  modding the HTML report without installing a complete web server. When set to False, the internal
+  web server will continue to serve the generated HTML report, even if it is modified (for a mod,
+  for example).
+
 * httpBacklog           
 - The number of http requests to queue before dropping requests.
 
