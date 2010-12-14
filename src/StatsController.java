@@ -50,8 +50,11 @@ public class StatsController {
 	
 	//Logs out all players - called at shutdown
 	public void logOutAllPlayers() {
-		for(Player player : etc.getServer().getPlayerList()) {
-			logOut(player);
+		synchronized(stats) {
+			for(PlayerStatistics ps : stats.values()) {
+				ps.flushSessionPlaytime();
+				ps.sessionMarkTime = null;
+			}
 		}
 	}
 	
