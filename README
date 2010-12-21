@@ -205,6 +205,18 @@ data formats.
 * MCStats.js *
 var mcStatsRawData = {...json data...};
 
+            ======= Notes on Web Servers =======
+Assuming you are using the default value for statsBaseResource, you can simply rename 
+your mcstats.html file to stats.html and then edit the copy. This will require the 
+use of some other web server technology to serve your new file as the embedded 
+server only serves mcstats.html.
+
+If you are using the internal web server, MCStats will overwrite any customized html 
+report unless you set overwriteHtmlReport to false in the .config file. While setting 
+this to false will allow the internal web server to serve a customized html file, 
+your html file will no longer get any updates with future versions of MCStats since 
+MCStats is now ignoring the file.
+
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< C O N T A C T >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 MCStats is written by Ryan Michela (deltahat@gmail.com)
