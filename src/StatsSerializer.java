@@ -23,63 +23,85 @@ import javax.xml.bind.Marshaller;
 
 public class StatsSerializer {
 	
+	// all generated reports are cached until flush is called. This is typically
+	// called right before persisting stats to disk
+	public static void flushSerializerCache() {
+		jsonCache = null;
+		javascriptCache = null;
+		xmlCache = null;
+		htmlCache = null;
+	}
+	
+	private static String jsonCache;
 	public static String statsAsJson(List<PlayerStatistics> rawStats) {
-		String response;
-		try {
-			response = JSONEncoder.getJSONEncoder(StatsSerializerMessage.class).encode(buildStatsMessage(rawStats));
-		} catch (Exception ex) {
-			response = ex.getMessage();
+		if (jsonCache == null) {
+			String response;
+			try {
+				response = JSONEncoder.getJSONEncoder(
+						StatsSerializerMessage.class).encode(
+						buildStatsMessage(rawStats));
+			} catch (Exception ex) {
+				response = ex.getMessage();
+			}
+			jsonCache = response;
 		}
-		
-		return response;
+		return jsonCache;
 	}
 	
+	private static String javascriptCache;
 	public static String statsAsJavascript(List<PlayerStatistics> rawStats) {
-		String json = statsAsJson(rawStats);
-		return "var mcStatsRawData = " + json + ";";
+		if (javascriptCache == null) {
+			String json = statsAsJson(rawStats);
+			javascriptCache = "var mcStatsRawData = " + json + ";";
+		}
+		return javascriptCache;
 	}
 	
+	private static String xmlCache;
 	//XML serialization must be done in pieces due to the limitations of jaxb.
 	//This does, however, give us more control over the final markup.
 	public static String statsAsXml(List<PlayerStatistics> rawStats) {
-		StringBuilder response = new StringBuilder();
-		StatsSerializerMessage message = buildStatsMessage(rawStats);
-		
-		try {
-			response.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-			response.append("<mcStats>");
-			response.append("<playersOnline>\n");
-			
-			for(OnlinePlayer p : message.getPlayersOnline()) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				JAXBContext jc = JAXBContext.newInstance(StatsSerializerMessage.class);
-				Marshaller marshaller = jc.createMarshaller();
-				marshaller.setProperty("jaxb.fragment", Boolean.TRUE);
-				marshaller.marshal(p, out);
-				response.append(out.toString());
-				response.append("\n");
+		if (xmlCache == null) {
+			StringBuilder response = new StringBuilder();
+			StatsSerializerMessage message = buildStatsMessage(rawStats);
+			try {
+				response.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+				response.append("<mcStats>");
+				response.append("<playersOnline>\n");
+
+				for (OnlinePlayer p : message.getPlayersOnline()) {
+					ByteArrayOutputStream out = new ByteArrayOutputStream();
+					JAXBContext jc = JAXBContext
+							.newInstance(StatsSerializerMessage.class);
+					Marshaller marshaller = jc.createMarshaller();
+					marshaller.setProperty("jaxb.fragment", Boolean.TRUE);
+					marshaller.marshal(p, out);
+					response.append(out.toString());
+					response.append("\n");
+				}
+
+				response.append("</playersOnline>");
+				response.append("<playerStats>\n");
+
+				for (PlayerStatistics p : message.getPlayerStats()) {
+					ByteArrayOutputStream out = new ByteArrayOutputStream();
+					JAXBContext jc = JAXBContext
+							.newInstance(StatsSerializerMessage.class);
+					Marshaller marshaller = jc.createMarshaller();
+					marshaller.setProperty("jaxb.fragment", Boolean.TRUE);
+					marshaller.marshal(p, out);
+					response.append(out.toString());
+					response.append("\n");
+				}
+
+				response.append("</playerStats>");
+				response.append("</mcStats>");
+			} catch (Exception ex) {
+				response.append(ex.getMessage());
 			}
-			
-			response.append("</playersOnline>");
-			response.append("<playerStats>\n");
-			
-			for(PlayerStatistics p : message.getPlayerStats()) {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				JAXBContext jc = JAXBContext.newInstance(StatsSerializerMessage.class);
-				Marshaller marshaller = jc.createMarshaller();
-				marshaller.setProperty("jaxb.fragment", Boolean.TRUE);
-				marshaller.marshal(p, out);
-				response.append(out.toString());
-				response.append("\n");
-			}
-			
-			response.append("</playerStats>");
-			response.append("</mcStats>");
-		} catch (Exception ex) {
-			response.append(ex.getMessage());
+			xmlCache = response.toString();
 		}
-		
-		return response.toString();
+		return xmlCache;
 	}
 	
 	private static StatsSerializerMessage buildStatsMessage(List<PlayerStatistics> rawStats) {
@@ -98,8 +120,10 @@ public class StatsSerializer {
 		return message;
 	}
  
+	private static String htmlCache;
 	public static String statsAsHtml(StatsConfig config) {
-		return 
+		if(htmlCache == null) {
+			htmlCache =  
 "<!DOCTYPE HTML>\n" +
 "<html>\n" +
 "	<head>\n" +
@@ -366,5 +390,7 @@ public class StatsSerializer {
 "		</script>\n" +
 "	</body>\n" +
 "</html>";
+		}
+		return htmlCache;
 	}
 }

@@ -185,7 +185,7 @@ public class PlayerStatistics implements Serializable {
 		return String.format("%s.%02d hours", hours, (int)Math.floor(minutes/60.0*100.0));
 	}
 	
-	private long mapCount(HashMap map) {
+	private long mapCount(HashMap<?,?> map) {
 		long acc = 0L;
 		
 		for(Object l : map.values()) {

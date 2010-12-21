@@ -114,6 +114,10 @@ public class StatsModel {
 				dir.mkdirs();
 			}
 			
+			// flush the serializer cache
+			StatsSerializer.flushSerializerCache();
+			
+			// create a single copy of the raw stats to send to each serializer
 			List<PlayerStatistics> rawStats = getRawStats();
 			saveUserFile(".xml", StatsSerializer.statsAsXml(rawStats), true);
 			saveUserFile(".json", StatsSerializer.statsAsJson(rawStats), true);
