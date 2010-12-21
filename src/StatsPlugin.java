@@ -40,11 +40,16 @@ public class StatsPlugin extends SuperPlugin {
 		model = new StatsModel(config, log);
 		controller = new StatsController(config, model.getStats());
 		listener = new StatsPluginListener(controller);
+		
+		// Write updatr file
+		UpdatrWriter.writeUpdatrFile("MCStats.updatr");
 	}
 
 	@Override
 	//Attach listener hooks
 	public void enableExtra() {
+		// Register hMod command
+		etc.getInstance().addCommand("/played", " - displays your total play time.");
 		//configure hMod hooks
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_PLACE, listener, this, PluginListener.Priority.LOW));
 		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_BROKEN, listener, this, PluginListener.Priority.LOW));

@@ -94,6 +94,15 @@ public class StatsPluginListener extends PluginListener {
 		super.onBan(mod, player, reason);
 	}
 
+	@Override
+	public boolean onCommand(Player player, String[] split) {
+		if(split[0].equalsIgnoreCase("/played") && player.canUseCommand("/played")) {
+			player.sendMessage(Colors.Red + controller.getPlaytime(player));
+			return true;
+		}
+		return false;
+	}
+
 	
 	
 }

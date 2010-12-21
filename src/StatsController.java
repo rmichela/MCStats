@@ -138,6 +138,12 @@ public class StatsController {
 		}
 	}
 	
+	// Return a player's total play time
+	public String getPlaytime(Player player) {
+		PlayerStatistics ps = getPlayerStats(player);
+		return ps.getTotalPlaytime();
+	}
+	
 	private PlayerStatistics getPlayerStats(Player player)
 	{
 		if(!stats.containsKey(player.getName()))
