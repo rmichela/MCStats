@@ -139,6 +139,9 @@ javascript format. These data feeds are ready for consumption by other programs 
 whatever parser your language provides. For your convenience, here are the xml and json
 data formats.
 
+Additionally, MCStats can be configured to POST json data to a url, allowing MCStats
+to push stats data into your app.
+
 * MCStats.xml *
 <mcStats>
 	<playersOnline>
