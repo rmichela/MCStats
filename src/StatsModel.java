@@ -124,6 +124,11 @@ public class StatsModel {
 			saveUserFile(".js", StatsSerializer.statsAsJavascript(rawStats), true);
 			saveUserFile(".html", StatsSerializer.statsAsHtml(config), config.getOverwriteHtmlReport());
 			
+			// post stats to a url
+			if(!config.getHttpPostUrl().equals("")) {
+				StatsHttpUploader.UploadStats(StatsSerializer.statsAsJson(rawStats), config, log);
+			}
+			
 		} catch (IOException ex) {
 			log.log(Level.SEVERE, "Error writing stats user files.", ex);
 		}

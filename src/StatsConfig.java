@@ -42,8 +42,16 @@ public class StatsConfig {
 		return config.getInt("secondsBetweenPageRefreshes", 60);
 	}
 	
-	public boolean ignoreGrouplessPlayers () {
+	public boolean getIgnoreGrouplessPlayers () {
 		return config.getBoolean("ignoreGrouplessPlayers", false);
+	}
+	
+	public String getHttpPostUrl() {
+		return config.getString("httpPostUrl", "");
+	}
+	
+	public int getHttpPostConnectTimeout() {
+		return config.getInt("httpPostConnectTimeout", 300);
 	}
 		
 	//webserver configuration

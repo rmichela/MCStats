@@ -160,7 +160,7 @@ public class StatsController {
 	
 	// Ignore players with no group if ignoreGrouplessPlayers is true.
 	private boolean ignorePlayer(Player player) {
-		if(config.ignoreGrouplessPlayers() && player.getGroups().length == 0 ) {
+		if(config.getIgnoreGrouplessPlayers() && player.getGroups().length == 0 ) {
 			return true;
 		} else {
 			return false;
