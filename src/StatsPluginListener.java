@@ -97,7 +97,7 @@ public class StatsPluginListener extends PluginListener {
 	@Override
 	public boolean onCommand(Player player, String[] split) {
 		if(split[0].equalsIgnoreCase("/played") && player.canUseCommand("/played")) {
-			player.sendMessage(Colors.Red + controller.getPlaytime(player));
+			player.sendMessage(Colors.Blue + controller.getPlaytime(player));
 			return true;
 		}
 		return false;

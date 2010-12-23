@@ -29,12 +29,12 @@ public class StatsPlugin extends SuperPlugin {
 	
 	private ShutdownHook hook = new ShutdownHook();
 	
-	private List<PluginRegisteredListener> psrs;
+	private List<PluginRegisteredListener> prls;
 	private HttpServer server;
 	
 	public StatsPlugin() {
 		super("MCStats");
-		psrs = new ArrayList<PluginRegisteredListener>();
+		prls = new ArrayList<PluginRegisteredListener>();
 		
 		config = new StatsConfig(baseConfig);
 		model = new StatsModel(config, log);
@@ -51,14 +51,15 @@ public class StatsPlugin extends SuperPlugin {
 		// Register hMod command
 		etc.getInstance().addCommand("/played", " - displays your total play time.");
 		//configure hMod hooks
-		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_PLACE, listener, this, PluginListener.Priority.LOW));
-		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_BROKEN, listener, this, PluginListener.Priority.LOW));
-		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.DISCONNECT, listener, this, PluginListener.Priority.LOW));
-		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.BAN, listener, this, PluginListener.Priority.LOW));
-		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.ITEM_DROP, listener, this, PluginListener.Priority.LOW));
-		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.LOGIN, listener, this, PluginListener.Priority.LOW));
-		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.PLAYER_MOVE, listener, this, PluginListener.Priority.LOW));
-		psrs.add(etc.getLoader().addListener(PluginLoader.Hook.DAMAGE, listener, this, PluginListener.Priority.LOW));
+		prls.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_PLACE, listener, this, PluginListener.Priority.LOW));
+		prls.add(etc.getLoader().addListener(PluginLoader.Hook.BLOCK_BROKEN, listener, this, PluginListener.Priority.LOW));
+		prls.add(etc.getLoader().addListener(PluginLoader.Hook.DISCONNECT, listener, this, PluginListener.Priority.LOW));
+		prls.add(etc.getLoader().addListener(PluginLoader.Hook.BAN, listener, this, PluginListener.Priority.LOW));
+		prls.add(etc.getLoader().addListener(PluginLoader.Hook.ITEM_DROP, listener, this, PluginListener.Priority.LOW));
+		prls.add(etc.getLoader().addListener(PluginLoader.Hook.LOGIN, listener, this, PluginListener.Priority.LOW));
+		prls.add(etc.getLoader().addListener(PluginLoader.Hook.PLAYER_MOVE, listener, this, PluginListener.Priority.LOW));
+		prls.add(etc.getLoader().addListener(PluginLoader.Hook.DAMAGE, listener, this, PluginListener.Priority.LOW));
+		prls.add(etc.getLoader().addListener(PluginLoader.Hook.COMMAND, listener, this, PluginListener.Priority.LOW));
 		
 		//purge any users marked for removal
 		for(String playerName : config.getPlayersToPurge()) {
@@ -116,10 +117,10 @@ public class StatsPlugin extends SuperPlugin {
 		model.saveStats();
 		model.saveUserFiles();
 		
-		for(PluginRegisteredListener psr : psrs) {
+		for(PluginRegisteredListener psr : prls) {
 			etc.getLoader().removeListener(psr);
 		}
-		psrs = new ArrayList<PluginRegisteredListener>();
+		prls = new ArrayList<PluginRegisteredListener>();
 		
 		//stop the http server if it's enabled
 		if(config.getWebserverEnabled()) {
