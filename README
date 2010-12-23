@@ -84,6 +84,13 @@ The following items can be configured in the MCStats.config file.
 
 * ignoreGrouplessPlayers
 - Default False. If true, players not assigned to any groups are completely ignored by MCStats.
+
+* httpPostUrl
+- Default empty. When set to a URL, MCStats will attempt to post its json data to that url
+  every time the stats are committed to disk.
+  
+* httpPostConnectTimeout
+- Default 300. The number of milliseconds to wait before giving up on an http post.
                           
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< M O D D I N G >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
