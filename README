@@ -84,6 +84,7 @@ The following items can be configured in the MCStats.config file.
 
 * ignoreGrouplessPlayers
 - Default False. If true, players not assigned to any groups are completely ignored by MCStats.
+  Note: If you will still need to purge players who were created before this setting was set to true.
 
 * httpPostUrl
 - Default empty. When set to a URL, MCStats will attempt to post its json data to that url
@@ -91,6 +92,11 @@ The following items can be configured in the MCStats.config file.
   
 * httpPostConnectTimeout
 - Default 300. The number of milliseconds to wait before giving up on an http post.
+
+* enableSerializerCache
+- Default True. When true, stats served up by the internal web server will only be regenerated every
+  secondsBetweenSaves seconds. If false, stats are generated in real-time. Setting this to false
+  could have a negative affect on server performance.
                           
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< M O D D I N G >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

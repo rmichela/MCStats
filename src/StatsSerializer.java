@@ -23,6 +23,8 @@ import javax.xml.bind.Marshaller;
 
 public class StatsSerializer {
 	
+	public static boolean enableSerializerCache = true;
+	
 	// all generated reports are cached until flush is called. This is typically
 	// called right before persisting stats to disk
 	public static void flushSerializerCache() {
@@ -34,7 +36,7 @@ public class StatsSerializer {
 	
 	private static String jsonCache;
 	public static String statsAsJson(List<PlayerStatistics> rawStats) {
-		if (jsonCache == null) {
+		if (jsonCache == null || !enableSerializerCache) {
 			String response;
 			try {
 				response = JSONEncoder.getJSONEncoder(
@@ -50,7 +52,7 @@ public class StatsSerializer {
 	
 	private static String javascriptCache;
 	public static String statsAsJavascript(List<PlayerStatistics> rawStats) {
-		if (javascriptCache == null) {
+		if (javascriptCache == null || !enableSerializerCache) {
 			String json = statsAsJson(rawStats);
 			javascriptCache = "var mcStatsRawData = " + json + ";";
 		}
@@ -61,7 +63,7 @@ public class StatsSerializer {
 	//XML serialization must be done in pieces due to the limitations of jaxb.
 	//This does, however, give us more control over the final markup.
 	public static String statsAsXml(List<PlayerStatistics> rawStats) {
-		if (xmlCache == null) {
+		if (xmlCache == null || !enableSerializerCache) {
 			StringBuilder response = new StringBuilder();
 			StatsSerializerMessage message = buildStatsMessage(rawStats);
 			try {
@@ -122,7 +124,7 @@ public class StatsSerializer {
  
 	private static String htmlCache;
 	public static String statsAsHtml(StatsConfig config) {
-		if(htmlCache == null) {
+		if(htmlCache == null || !enableSerializerCache) {
 			htmlCache =  
 "<!DOCTYPE HTML>\n" +
 "<html>\n" +

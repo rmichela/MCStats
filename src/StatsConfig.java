@@ -92,4 +92,8 @@ public class StatsConfig {
 		config.setBoolean("resetPlaytime", false);
 		config.save();
 	}
+	
+	public boolean getEnableSerializerCache() {
+		return config.getBoolean("enableSerializerCache", true);
+	}
 }

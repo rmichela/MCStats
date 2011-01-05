@@ -48,6 +48,10 @@ public class StatsPlugin extends SuperPlugin {
 	@Override
 	//Attach listener hooks
 	public void enableExtra() {
+		
+		// Configure the serializer cache
+		StatsSerializer.enableSerializerCache = config.getEnableSerializerCache();
+		
 		// Register hMod command
 		etc.getInstance().addCommand("/played", " - displays your total play time.");
 		//configure hMod hooks
