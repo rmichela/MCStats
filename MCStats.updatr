@@ -1,5 +1,5 @@
 name = MCStats
-version = 0.5.4
+version = 0.5.4.1
 url = https://github.com/rmichela/MCStats/raw/master/MCStats.updatr
 file = https://github.com/downloads/rmichela/MCStats/MCStats.jar
-notes = Now with Updatr support!
+notes = Minor fixes.
