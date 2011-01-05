@@ -71,9 +71,10 @@ public class StatsPluginListener extends PluginListener {
 				// We have a successful kill
 				
 				// If the defender was a player, note the death
-				if(livingDefender.isPlayer()) {
-					controller.die(livingDefender.getPlayer());
-				}
+				// onDamage spams deat statistics. keep this here in case this gets fixed
+//				if(livingDefender.isPlayer()) {
+//					controller.die(livingDefender.getPlayer());
+//				}
 				
 				// If the attacker was a player, note the kill
 				if(attacker != null && attacker.isPlayer()) {
@@ -85,6 +86,15 @@ public class StatsPluginListener extends PluginListener {
 		
 		
 		return super.onDamage(type, attacker, defender, amount);
+	}
+
+	@Override
+	public boolean onHealthChange(Player player, int oldValue, int newValue) {
+		if(newValue <= 0) {
+			System.out.println("Death!");
+			controller.die(player);
+		}
+		return super.onHealthChange(player, oldValue, newValue);
 	}
 
 	@Override
